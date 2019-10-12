@@ -1,0 +1,24 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or.hdl
+
+ /**
+ * Or gate:
+ * out = 1 if (a == 1 or b == 1)
+ *       0 otherwise
+ */
+
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    // Use DeMorgan Law - NOT(x) OR NOT(y) = NOT(AND(x,y))
+    // NOT of AND is NAND. SO, NOT(x) OR NOT(y) = NAND(x,y)
+    // So, x OR y = NAND(NOT(x), NOT(y))
+    // Therefore, OR(x,y) = NAND(NAND(x,x), NAND(y,y))
+    PARTS:
+    Nand(a=a, b=a, out=notA);
+    Nand(a=b, b=b, out=notB);
+    Nand(a=notA, b=notB, out=out);
+}

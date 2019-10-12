@@ -1,0 +1,26 @@
+Boolean Logic
+
+For X, Y
+
+AND - both 1
+OR - Any 1
+NOT - Opposite of Input
+
+
+-> Every boolean function can be formed only using AND, OR & NOT.. Just write a formula that's true only for 1 row in a truth table and OR such formulas together to get a single formula mimicking the truth table
+-> Every boolean function can be formed using AND & NOT... OR can be written in the form of AND & NOT using DeMorgan formula ... which is 
+    NOT(x) OR NOT(y) = NOT(x AND y) .... So,
+    x OR y = NOT(NOT(x) AND NOT(y))
+    Hence Proved.
+-> Every boolean function can be formed using NAND
+    NAND(x,x) = NOT (x AND x) = NOT(x)
+    NAND(NAND(x,y), NAND(x,y)) = NOT(NAND(x,y)) = AND (x,y)
+    NAND(NAND(x,x), NAND(y,y)) = NOT(NOT(NAND(NAND(x,x), NAND(y,y)))) = NOT(NAND(x,x) AND NAND(y,y))= NOT(NOT(x) AND NOT(y))= OR(x,y)
+    Hence Proved.
+
+
+
+
+    
+
+

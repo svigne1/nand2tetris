@@ -1,0 +1,61 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    // ChooseA- means chooseA incomplete
+    // To DMux4Way, we add an addition AND gate checking with sel[2] bit & copy pasting for other 4 bits.
+    // There is NO bus that DMux outputs. So, there is no clever way of doing things than just tailor logic for every variable.
+    PARTS:
+    
+    Not(in=sel[0], out=notSel0);
+    Not(in=sel[1], out=notSel1);
+    Not(in=sel[2], out=notSel2);
+
+    // For a
+    And(a=notSel0, b=notSel1, out=chooseA-);
+    And(a=chooseA-, b=notSel2, out=chooseA);
+    Mux(a=false, b=in, sel=chooseA, out=a);
+    // For b
+    And(a=notSel1, b=sel[0], out=chooseB-);
+    And(a=chooseB-, b=notSel2, out=chooseB);
+    Mux(a=false, b=in, sel=chooseB, out=b);
+    // For c
+    And(a=notSel0, b=sel[1], out=chooseC-);
+    And(a=chooseC-, b=notSel2, out=chooseC);
+    Mux(a=false, b=in, sel=chooseC, out=c);
+    // For d
+    And(a=sel[0], b=sel[1], out=chooseD-);
+    And(a=chooseD-, b=notSel2, out=chooseD);
+    Mux(a=false, b=in, sel=chooseD, out=d);
+
+    
+    // For e
+    And(a=notSel0, b=notSel1, out=chooseE-);
+    And(a=chooseE-, b=sel[2], out=chooseE);
+    Mux(a=false, b=in, sel=chooseE, out=e);
+    // For f
+    And(a=notSel1, b=sel[0], out=chooseF-);
+    And(a=chooseF-, b=sel[2], out=chooseF);
+    Mux(a=false, b=in, sel=chooseF, out=f);
+    // For g
+    And(a=notSel0, b=sel[1], out=chooseG-);
+    And(a=chooseG-, b=sel[2], out=chooseG);
+    Mux(a=false, b=in, sel=chooseG, out=g);
+    // For h
+    And(a=sel[0], b=sel[1], out=chooseH-);
+    And(a=chooseH-, b=sel[2], out=chooseH);
+    Mux(a=false, b=in, sel=chooseH, out=h);
+}

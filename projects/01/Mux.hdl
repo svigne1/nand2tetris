@@ -1,0 +1,28 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    // (b AND sel) OR (a AND NOT(sel))
+    // sel here switches off one AND & switches on the other !
+    PARTS:
+    And(a=b, b=sel, out=chooseB);
+    Not(in=sel, out=notSel);
+    And(a=a, b=notSel, out=chooseA);
+    Or(a=chooseA, b=chooseB, out=out);
+}
+
+/*
+    Notes:-
+    Mulitplexor selects the input given two choices. There is only one output.
+*/
