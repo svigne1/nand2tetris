@@ -12,6 +12,12 @@ CHIP FullAdder {
     OUT sum,     // Right bit of a + b + c
         carry;   // Left bit of a + b + c
 
+    // We can use HalfAdder 3 times to get a FullAdder
+    // Do a+b, get sum0 & carry0
+    // Do sum0 + c, get sum & carry1
+    // Do carry0 + carry1, get carry + always_0
     PARTS:
-    // Put you code here:
+    HalfAdder(a=a, b=b, sum=sum0, carry=carry0);
+    HalfAdder(a=c, b=sum0, sum=sum, carry=carry1);
+    HalfAdder(a=carry1, b=carry0, sum=carry, carry=zero);
 }

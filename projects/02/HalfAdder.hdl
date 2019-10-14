@@ -12,6 +12,10 @@ CHIP HalfAdder {
     OUT sum,    // Right bit of a + b 
         carry;  // Left bit of a + b
 
+    // You can write out the truth table and realize that, 
+    // sum is the Xor gate
+    // carry is the And gate
     PARTS:
-    // Put you code here:
+    Xor(a=a, b=b, out=sum);
+    And(a=a, b=b, out=carry);
 }
