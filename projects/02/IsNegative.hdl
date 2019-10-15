@@ -1,0 +1,15 @@
+// CUSTOM HELPER CLASS
+
+/**
+ * IsNegative: 
+ * 1 if (in < 0),  0 otherwise
+ */
+
+CHIP IsNegative {
+    IN in[16];
+    OUT out;
+
+    PARTS:
+    // Trying to do ng = in[15] through this hack. The last bit if 1, its a negative number
+    Or(a=in[15], b=false, out=out);
+}

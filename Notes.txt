@@ -52,7 +52,7 @@ Negative Numbers
     But this created both a (positive zero) +0 and a (negative zero) -0
     - So, they created the 2's complement 
 
-    2's Complement #### JUST WORKS ####
+    2's Complement is, -x is represented as 16 - x 
 
         Binary      Decimal     Decimal in 2's complement
 
@@ -77,24 +77,103 @@ Negative Numbers
    The reason for choosing 16,
         1. If we choose a number like 19, then -2 will be calculated as 19 - 2, 17, which ALSO can not be represented by the 4 bits.
         2. 16 is the first number that can not be represented by 4 bits. So, any number u subtract from 16, will definitely find a place among the 4 bits.
-        3. This 16 we have added to all negative numbers to represent them as positive numbers is MOST LIKELY to get eliminated during addition's overflow mechanism !! The times it doesn't get eliminated, the answers themselves turn out to be a negative number !!!
+        3. This 16 we have added to all negative numbers to represent them as positive numbers is MOST LIKELY to get eliminated during addition's overflow mechanism !! The times it doesn't get eliminated, the answers themselves turn out to be a negative number !!! And the arithmetics #### JUST WORKS ####
     
-    Auto-Elimination of 16, during arithmetics of negative numbers to remove the unwanted 16 we introduced... works only when... the result is a positive number. It conveniently leaves the 16 lying aroung if the result is also a negative number !!
-    Epdi da ithellaan?? Looks like magic !!!
-    The addition if results in a -ve number, it stays within the 4 bits automatically.
-    If the result is a positive number, automatically, it goes over the ledge, losing a 16, and exactly landing at the right number!
-    MAGIC - It #### JUST WORKS ####
+    Elimination of 16, during addition (to remove the unwanted 16 we introduced to negative numbers) happens automatically due to addition's overflow flaw. The times that this does not happen are times the results themselves are a negative number, So, the 16 we added is conveniently left around untouched. The math #### JUST WORKS #### automatically in all cases.
 
-        1. 7 - 1 = 7 + (16 - 1) = 7 + 15 = 22 (addition overflow) = 6 
-        2. 1 - 7 = 1 + (16 - 7) = 1 + 9 = 10 (-6)
-        3. -3 - 4 = (16 - 3) + (16 - 4) = 13 + 12 = 25 (addition overflow) = 9 (-7)
+    Case 1 - Addition of -ve numbers
+        Case 1.1
+            7 - 4 = 7 + (16 - 4) = 7 + 12 = 19 (flaw) = 3 
+            So, the 16 we added forcefully to negative numbers, we lost it automatically through addition's flaw.
+        Case 1.2 
+            3 - 7 = 3 + (16 - 7) = 3 + 9 = 12 (-4)
+            Here, the 16 we added forcefully, never gets removed and that's exactly what we WANT.
+            The answer is a negative number
+        Case 1.3
+            -3 - 4 = (16 - 3) + (16 - 4) = 13 + 12 = 25 (flaw) = 9 (-7)
+            Here, we added two 16s forcefully, only one got removed, one stayed and that's because result is a negative number !
 
-    Problems during arithmetics of negative numbers
+    OVERFLOW Problems during arithmetics of boolean numbers - 
 
-        1. 5 + 5 = 10 (-6) .. Addition of positive numbers overflow into negative numbers.
-        3. -5 -5 = (16 - 5) + (16 - 5) = 11 + 11 = 22 (addition overflow) = 6 ... Addition of negative numbers overflows into positive numbers.
+        1. 5 + 5 = 10 (-6) .. Addition of positive numbers overflows into negative numbers.
+        3. -5 -5 = (16 - 5) + (16 - 5) = 11 + 11 = 22 (flaw) = 6 ... Addition of negative numbers overflows into positive numbers.
 
         But everywhere else, it #### JUST WORKS ####
+
+    How we do the 2's complement?
+        x is taken as 16 - x 
+        16 - x = (15 - x) + 1 = !x + 1
+
+    How is (15 - x) equals to !x?
+        When u subtract any number, x from 1111, the result is the 4-bit NOT of that number
+          1111
+        - 0101
+        = 1010
+
+ALU
+
+    This system has a list of functions that it carries out on the inputs a, b
+    But the function to be performed needs to be selected using selector bits
+    Basically, ALU is a MUX of functions
+
+    And in order to understand how ALU functions work, You need to remember ONLY one basic rule of boolean arithmetic,
+    which is, (15 - x) equals !X
+
+    Selector bits
+    
+    zx -> x = 0000 if 1
+    nx -> x = !x if 1
+    zy -> y = 0000 if 1
+    ny -> y = !y if 1
+    f -> x+y (arithmetic addition) if 1, x&y (bit-wise AND) if 0 
+    no -> !f if 1, f if 0
+
+    Output bits
+
+    zr -> if out is 0, then 1
+    ng -> if out is negative, then 1
+
+    Selector bit Functionality derived !!!
+    
+    zx  nx  zy  ny  f   no  out     Explained     
+    1   0   1   0   1   0   0     x=0000, y=0000, f=0000 (+), no=0000, out=0 
+    1   1   1   1   1   1   1     x=1111, y=1111, f=1110 (+), no=0001, out=1 
+    1   1   1   0   1   0   -1    x=1111, y=0000, f=1111 (+), no=1111, out=-1 (1111 is -1 in 2's complement)
+    0   0   1   1   0   0   x     x=x, y=1111, f=x (&), no=x, out=x
+    1   1   0   0   0   0   y     x=1111, y=y, f=y (&), no=y, out=y
+    0   0   1   1   0   1   !x    x=x, y=1111, f=x (&), no=!x, out=!x
+    1   1   0   0   0   1   !y    x=1111, y=y, f=y (&), no=!y, out=!y
+    0   0   1   1   1   1   -x    x=x, y=1111, f=15+x (+), no=!(15+x), out = !(16+x-1) = !(x-1) = 15-x+1 = 16-x = -x 
+    1   1   0   0   1   1   -y    x=1111, y=y, f=15+y (+), no=!(15+y), out = !(16+y-1) = !(y-1) = 15-y+1 = 16-y = -y
+    0   1   1   1   1   1   x+1   x=!x, y=1111, f=15+!x (+), no=!(15+!x), out = !(15+15-x) = 15-15-15+x = -16+x+1 = x+1 
+    1   1   0   1   1   1   y+1   x=1111, y=!y, f=15+!y (+), no=!(15+!y), out = !(15+15-y) = 15-15-15+y = -16+y+1 = y+1
+    0   0   1   1   1   0   x-1   x=x, y=1111, f=15+x (+), no=15+x, out = (16+x-1) = x-1 
+    1   1   0   0   1   0   y-1   x=1111, y=y, f=15+y (+), no=15+y, out = (16+y-1) = y-1
+    0   0   0   0   1   0   x+y   x=x, y=y, f=x+y (+), no=x+y, out=x+y
+    0   1   0   0   1   1   x-y   x=!x, y=y, f=y+!x (+), no=!(y+!x), out = !(y+15-x) = 15-y-15+x = x-y
+    0   0   0   1   1   1   y-x   x=x, y=!y, f=x+!y (+), no=!(x+!y), out = !(x+15-y) = 15-x-15+y = y-x
+    0   0   0   0   0   0   x&y   x=x, y=y, f=x&y (&), no=x&y, out=x&y
+    0   1   0   1   0   1   x|y   x=!x, y=!y, f=!x AND !y (&), no=NOT(!x AND !y), out= x OR y (DeMorgan Law)
+
+    2 Important Principles to derive all functionalities of ALU
+
+        1. 16 is 10000, 5 bits. So, it can NOT be represented in the 4 bits world. So, practically 16 is the new 0. 
+            16 will always get removed or ignored.
+        2. 15 - x = 1111 - x = !x. Basically, if you do the math and see, since 15 has all 1s possible (for 4 bits).
+            There wont be ANY borrow necessary ever. So, if x has any 1s, it will become 0. And if x has zeros, 15's 1s will descend replacing those zeroes. So, subtracting x from 15, is a neat way to do NOT !!
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     

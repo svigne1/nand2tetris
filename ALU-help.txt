@@ -1,3 +1,0 @@
-
-If the numbers are 4 bits.
-Then, 15 - x = 
