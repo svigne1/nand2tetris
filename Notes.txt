@@ -162,13 +162,73 @@ ALU
         2. 15 - x = 1111 - x = !x. Basically, if you do the math and see, since 15 has all 1s possible (for 4 bits).
             There wont be ANY borrow necessary ever. So, if x has any 1s, it will become 0. And if x has zeros, 15's 1s will descend replacing those zeroes. So, subtracting x from 15, is a neat way to do NOT !!
 
+Sequential chips
+
+    So, far we have dealt with combinatorial chips.
+    From a hardware persepective, combinatorial chips are chips that process outputs in a negligible amount of time.
+    While sequential chips are chips that take time to stabilize themselves before returning a output.
+
+    This is the reason why .. we introduce CLOCK CYCLES.
+
+    Clock cycle is the minimum amount of time to wait before expecting a sequential chip to output.
+    As, a result, sequential chips process input with a time delay of 1 clock cycle.
+
+    Therefore, the only difference is, combinatorial chips process input in the same clock cycle while sequential chips process & output only in the next clock cycle.
+    
+    Sequential Chips - input at time T, output at time T+1
+    Combinatorial Chips - input at time T, output at time T
+
+    D-FlipFlop
+
+        Is a chip that takes input at time T and outputs the input at time T+1
+    
+Memory
+
+    1-Bit Chip 
+    
+        - Is the smallest unit of memory
+        - You can read & write values to it
+        - A load bit is used to signal a Mux inside it, whether we are writing or reading from it. 
+        - If it's write, the Mux, takes the incoming input and forwards it to the D-FlipFlop inside.
+        - If it's read, the Mux, takes the ouput of the D-FlipFlop and pipes it back to the D-FlipFlop itself.
+        
+        This looping mechanism, of wiring the ouput of the D-FlipFlop as its own input helps the 1-bit chip to store values eternally.
+        
+    Register (16-bit, 32-bit, 64-bit Multi-Chip)
+        
+        It's a bus of 1-bit chips.
+    
+    RAM (RAM8, RAM64, RAM512, RAM4K, RAM16K)
+
+        - Is a MUX over a Bus of many Registers or other RAMs.
+        - Only one register can be accessed at any time. RAM is a MUX of Registers & other RAMs, so only 1 output.
+        - Access time to any register is the SAME, Irrespective of RAM's size and register's location.
+        - Volatile - loses memory if it loses power.
+        - Width is Register Width - How many 1-bit chips each register is made of, Our case 16-bits
+        - Address is RAM's selector bits. It depends on how many registers or RAMs, the RAM has packed in it.
+
+    Program Counter
+
+        A special register of 16, 1-Bit chips, to store the address of the program we are executing.
+        It's a counter that can be reset to 0, loaded a new value, incremented by 1, or remain the same.
+        Since, there is a if-else in its definition, u need to write the truth table down, find the logic Gates
+        that wud help u construct the selector bits for Mux, which can then be easily used to select 1 output among 4
+        different outputs
+    
+        
+PROJECT3 - COPY 
+        I didnt know how to read out[t] & set out[t+1] from these sequential chips in HDL.
+        I didnt kno the right syntax to use for that. Turns out DFF's out needs to be mentioned twice. 
+        The auto-complete plugin i was using never mentioned that.
+        Cheat-Sheet & AppendixA couldn't help.
+        Checked online.
+        And while programming PC, found out in the CHEAT-SHEET, under the section of "Multiple outputs" (A non-obvious name to index by), the last paragraph mentions in one single line, sequential chips's previous timestamp outputs can be retrieved using the same out keyword.
 
 
 
 
 
-
-
+-------------------------------------------------------------------------------
 
 
 

@@ -14,5 +14,8 @@ CHIP Bit {
     OUT out;
 
     PARTS:
-    // Put your code here:
+    // I copied this from https://framagit.org/gagbo/nand2tetris/blob/master/projects/03/a/Bit.hdl
+    // I was not able to get out[t]. I kept trying to use out for both out[t] as well as out[t+1]
+    Mux(a=lastOut, b=in, sel=load, out=muxOut);
+    DFF(in=muxOut, out=out, out=lastOut);
 }

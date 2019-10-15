@@ -16,5 +16,46 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+
+    // helper parts
+    Inc16(in=outT, out=incOut);
+    Not(in=reset, out=notReset);
+    Not(in=load, out=notLoad);
+    Not(in=inc, out=notInc);
+
+    // For sel1 of Mux
+    And(a=notReset, b=notLoad, out=sel1);
+
+    // For sel0 of Mux
+    And(a=notReset, b=load, out=part1);
+    And(a=notReset, b=notLoad, out=part2);
+    And(a=part2, b=notInc, out=part2full);
+    Or(a=part1, b=part2full, out=sel0);
+
+    Mux4Way16(a=false, b=in, c=incOut, d=outT, sel[0..0]=sel0, sel[1..1]=sel1, out=output);
+    Register(in=output, load=true, out=out, out=outT);
 }
+
+/*
+
+reset, load, inc, same will get selected in this order in Mux, if sel is 00, 01, 10, 11
+reset load inc sel
+0       0   0   11 (Same - 3)
+0       0   1   10 (Inc - 2)
+0       1   0   01 (Load - 1)
+0       1   1   01 (Load - 1)      
+1       0   0   00 (Reset - 0)
+1       0   1   00
+1       1   0   00
+1       1   1   00
+
+1. sel1 is ON when it is 000 or 001 (first 2 entries)
+    So, ( not(reset) AND not(load) AND not(inc) ) OR (not(reset) AND not(load) AND inc)
+    Simpler Form - not(reset) AND not(load).... inc doesnt matter
+
+2. sel0 is ON in 3 cases, 000, 010, 011
+    Simpler form, if it starts with 01, then inc doesnt matter.
+    So, 2 cases, 01x and 000
+    (not(reset) AND load) OR (not(reset) AND not(load) AND not(inc))
+
+*/
