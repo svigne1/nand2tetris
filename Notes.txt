@@ -226,9 +226,56 @@ PROJECT3 - COPY
 
 
 
+-----------------------------------------------------------------------------------------------------------------------
 
+High-Level Language converts to Assembly Language
+Assembler converts to Machine Language
 
--------------------------------------------------------------------------------
+Bigger the Memory unit. 
+Bigger the address to access it & longer the time to access it. 
+Although, RAM takes equal time in accessing any memory.
+The bigger the RAM, accessing any given memory takes longer time.
+Because if u draw the diagram.
+So, many sizes of memory are arranged.
+Smallest to Largest -> Registers, Cache, RAM, Disk
+
+Registers used as address & data.
+ADD R1, R2 => R2 = R2 + R1
+
+Give symbolic names to address .. ex - M[200] can be called as index & address 102 can be given a name loop, and Jump loop can be an instruction
+
+MD means both M and D
+AMD means all 3 - A,M,D registers
+D = -1
+M = D - 1
+A references RAM or ROM?
+D - 1; JEQ
+0; JMP
+
+A instruction @21
+C instruction dest = comp; jump
+
+SCREEN
+256*512/16 = 8K, 16 is the register size called the word
+32 words (16*32 = 512) is one row in the screen
+row, col = row*32 + col/16 is the register number for this pixel
+word = Screen[row*32 + col/16]. Screen is an 8K RAM, which is going to be our screen memory map... 1-dimensional 8,000 16-bit registers.
+Memory map is part of the data memory (the RAM)
+
+word = RAM[16384 + 32*row + col/16]. In the RAM, it's these many registers later, the screen memory map is allocated.
+col%16 is the bit in the chosen word or register.
+Keyboard memory map - single register.. register name is keyboard
+
+keyboard = RAM[24576], this register in the RAM is dedicated to the keyboard.This is the keyboard memory map.
+Infinite loop
+Virtual registers @R0..@R15, SCREEN=16384, KBD=24576
+Hack is case-sensitive
+
+Branching - U can label code addresses using (name) and use it as @name
+Variables - U can give an arbitrary name @name, and if its not pointing to any code address, then its a variable. Some address > 15 is assigned to it, and the next variable onwards, some address > 16 is assigned to it.
+Iteration - Write, pseudo code, convert & trace.
+Variables that store memory addresses are called pointers.
+-----------------------------------------------------------------------------------------------------------------------
 
 
 
