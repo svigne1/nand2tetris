@@ -307,18 +307,31 @@ Hack Assembly Language
     Hack programs need to be ended with a infinite loop. Otherwise Hackers can exploit the loophole of the computer to keep infinitely reading all sections of the ROM
 
 -----------------------------------------------------------------------------------------------------------------------
+3 types of info - data, control, address - Bus
+ALWAYS - 1 Data Memory register & 1 Instructions memory registers are selected. (RAM & ROM)
 
+CPU
+- There are only 3 registers.
+- ALU + 3 registers - A,D & PC is CPU
 
+Most important thing... to know about HDL is,
+    THEY ARE NOT SEQUENTIAL. 
+    THIS IS VERY IMPORTANT WHILE COVERING CYCLIC LOOPS
+    AND NON-LINEAR USE OF DECLARED VARIABLES.
+
+Project5 - Completed CPU without watching the lectures and copying the architecture demonstrated there.
 -----------------------------------------------------------------------------------------------------------------------
 
 
 
+NOT-OBVIOUS from the COURSE
 
+1. Half-Adder + Full-Adder
+2. 2's Complement GENIUS
+3. ALU, NOT = 15 - x
+4. Coding - How non-linear HDL is. How to get multiple outputs from the gates. Each from different time T. Ex - Bit Register & CPU.
+5.
 
-
-
-    
-    
 
 
 
