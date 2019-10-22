@@ -43,6 +43,7 @@ CHIP CPU {
       -> A-register gets set in this following truth table way
         - where 15th bit, is instruction[15], which is an A-instruction if 0 or C-instruction if 1.
         - If C-instruction, then A is modified using ALU's output only when d1 bit is ON, which is instruction[5]
+        - If A-instruction, then A is modified with the reminder of the instruction[0..14]
 
       15th bit | 5th bit | set | value
 
@@ -59,7 +60,8 @@ CHIP CPU {
         1           0       0       anything, say instruction
         1           1       1       comp
         
-        So, instruction = NAND(15th, 5th bit)
+        So, value = instruction if NAND(15th, 5th bit) is 1 otherwise it is comp.
+        So, compute the value and run a Mux over it.
 
       -> Make 5th bit as NOT(5th bit), you get
       15th bit | !5th bit | set | value
@@ -69,28 +71,29 @@ CHIP CPU {
         1           0       1       comp
         1           1       0       anything, say instruction
         
-        So, set = NAND(15th, !5th)
+        So, set = NAND(15th, !5th), this is the load bit for the A Register.
 
-        Using these, setting A-register's T+1 output (Atplus) to computation or instruction or null (the above truth table helps us to decide, which of these should happen) where computation is computed from an ALU that uses A-register's output from Time T (At)
+        Cyclic wiring - 
+        A-register's T+1 output (Atplus) is set to computation or instruction or remains the same where computation is computed from an ALU using A-register's output at Time T (At)
     */
     
-    Nand(a=instruction[15], b=instruction[5], out=setInstruction);
+    Nand(a=instruction[15], b=instruction[5], out=setAvalueBool);
     Not(in=instruction[5], out=not5thBit);
     Nand(a=instruction[15], b=not5thBit, out=setA);
 
-    Mux16(a=computation, b=instruction, sel=setInstruction, out=Avalue);
+    Mux16(a=computation, b=instruction, sel=setAvalueBool, out=Avalue);
     ARegister(in=Avalue, load=setA, out=Atplus, out=At);
 
 
     /* 
         For D-register,
-        instruction[15] (C-instruction) == 1 & instruction[4] == 1 (D bit in C-instruction)
+        instruction[15] (C-instruction) == 1 AND instruction[4] (D2 bit in C-instruction) == 1 
     */
     And(a=instruction[15], b=instruction[4], out=setD);
     DRegister(in=computation, load=setD, out=Dtplus, out=Dt);
 
     /* 
-        For ALU,
+        For ALU(x,y)
         x is D,
         y is A if instruction[12] = 0 
             and M if instruction[12] = 1,
@@ -102,7 +105,7 @@ CHIP CPU {
 
     /* 
         For M, 
-        writeM = instruction[15] = 1 (C-instruction) & instruction[3] = 1 (Set to M bit in C-instruction)
+        writeM = instruction[15] (C-instruction) == 1  AND instruction[3] (D3 bit in C-instruction) == 1 
         outM = computation
         addressM = At (The value of A, before modified)
     */
@@ -114,11 +117,12 @@ CHIP CPU {
         For PC,
         Say instruction = ins
         ins[0..2]
-            (if ins[0] = greater = 1 & pos == 1 & !zr(not_zero) == 1, then A,
-            or if ins[1] = equal = 1 & zr == 1, then A
-            or if ins[2] = lesser = 1 & ng == 1, then A
-            or if ins[0] & ins[1] & ins[2] == unconditional = 1, A)
-            AND ins[15] == 1 (if it's a C-instruction)
+            {
+                if ins[0] (greater) == 1 AND pos == 1 AND !zr (not_zero) == 1, then PC=A,
+                or if ins[1] (equal) == 1 AND zr == 1, then PC=A
+                or if ins[2] (lesser) == 1 AND ng == 1, then PC=A
+                or if ins[0] & ins[1] & ins[2] (unconditional) == 1, then PC=A
+            } AND ins[15] (C-instruction) == 1  
         If !A, then 
             jump to PC+1,
         If Reset, reset.
@@ -136,9 +140,9 @@ CHIP CPU {
     Or(a=greater, b=equal, out=bigOR1);
     Or(a=bigOR1, b=lesser, out=bigOR2);
     Or(a=bigOR2, b=unconditional, out=bigOR3);
-    And(a=instruction[15], b=bigOR3, out=jump2A);
-    Not(in=jump2A, out=inc);
+    And(a=instruction[15], b=bigOR3, out=PCjump2A);
+    Not(in=PCjump2A, out=PCinc);
 
-    PC(in=At, load=jump2A, inc=inc, reset=reset, out[0..14]=pc);
+    PC(in=At, load=PCjump2A, inc=PCinc, reset=reset, out[0..14]=pc);
 
 }
