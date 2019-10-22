@@ -1,0 +1,98 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+ */
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    /* 
+        RAM is RAM16K - 0 to 16,383
+        RAM needs 14 bits for address.
+        Memory has 15 bits of address. So, 0..13 is used for RAM
+        If all 1 in RAM's address, is 16383
+        So in 16 bits, 16383 is 00 followed by 14 ones - 0011111111111111
+        And 16383 + 1 = 16384 is 0100000000000000
+
+        isRAM = address - 16384, if isRAM < 0, the address is for the RAM
+
+        In ALU(x,y),
+        x - y (Subtraction) is !(!x + y)
+        Since !(!x + y) = 15 - (15 - x) - y = 15 - 15 + x - y = x - y
+
+    */
+    ALU(x=address, y=0100000000000000, zx=0, nx=1, zy=0, ny=0, f=1, no=1, out=screen1Address, zr=junk1, ng=isRAM);
+    And(a=isRAM, b=load, out=loadRAM);
+    RAM16K(in=in, load=loadRAM, address[0..13]=address, out=outRAM);
+
+    /*
+        Screen is 2 RAM4Ks 
+        16,384 to 24,575
+    */
+    /* 
+        Screen1
+        1 RAM4K has 4096 registers.
+        So, 16383 + 4096 = 20479 = 0100111111111111
+        20479 is the last bit in 1st half of screen.
+        So, anything less than 20479 + 1 = 20480 = 0101000000000000 is screen1
+        
+        So, isScreen1 = address - 20480, if !isRAM AND isScreen1 < 0 the address is for screen1
+    */
+    Not(in=isRAM, out=notRAM);
+    ALU(x=address, y=0101000000000000, zx=0, nx=1, zy=0, ny=0, f=1, no=1, out=screen2Address, zr=junk3, ng=lessThanScreen1);
+    And(a=notRAM, b=lessThanScreen1, out=isScreen1);
+    And(a=isScreen1, b=load, out=loadScreen1);
+    RAM4K(in=in, load=loadScreen1, address[0..11]=screen1Address, out=outScreen1);
+
+    /* 
+        Screen2
+        1 RAM4K has 4096 registers.
+        So, 20479 + 4096 = 24575 = 0101111111111111
+        24575 is the last bit in 2nd half of screen.
+        So, anything less than 24575 + 1 = 24576 = 0110000000000000 is screen2
+        
+        So, isScreen2 = address - 24576, if !isScreen1 AND isScreen2 < 0 the address is for screen2
+    */
+    Not(in=isScreen1, out=notScreen1);
+    ALU(x=address, y=0110000000000000, zx=0, nx=1, zy=0, ny=0, f=1, no=1, out=junk4, zr=isKBD, ng=lessThanScreen2);
+    And(a=notScreen1, b=lessThanScreen2, out=isScreen2);
+    And(a=isScreen2, b=load, out=loadScreen2);
+    RAM4K(in=in, load=loadScreen2, address[0..11]=screen2Address, out=outScreen2);
+    
+    /*
+        Keyboard
+        24,576
+    */
+    And(a=isKBD, b=load, out=loadKBD);
+    Register(in=in, load=loadKBD, out=outKBD);
+
+    /*
+        This is sequential ALU subtraction...
+        Meaning
+        ALU1 -> ALU2 -> ALU3 -> ALU4
+        Where each ALU waits for the output of the previous ALU.
+        This makes it sequential and not parallel
+        BUT, I guess.... ALU is not sequential.. So we dont need to wait many CPU cycles for the output.
+    */
+}

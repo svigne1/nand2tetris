@@ -88,6 +88,13 @@ CHIP CPU {
     /* 
         For D-register,
         instruction[15] (C-instruction) == 1 AND instruction[4] (D2 bit in C-instruction) == 1 
+
+        --> Forgot to check whether it is a C-instruction,
+            So took a long time to debug and figure it out.
+            Ran through the entire test code, stack-traced it multiple times.
+            Was failing only at the 20th step !!
+            And the D & A registers are changed continuosly through out all 20 tests.
+            So, cant trace from middle
     */
     And(a=instruction[15], b=instruction[4], out=setD);
     DRegister(in=computation, load=setD, out=Dtplus, out=Dt);

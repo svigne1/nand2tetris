@@ -271,7 +271,7 @@ Hack Assembly Language
         
     Screen Memory map
     
-        Screen size we have taken in this project is 256x512.
+        Screen size we have taken in this course is 256x512.
         This is a black and white screen. So, each pixel is either a 0 or 1. 
         So, we require only 1 bit to represent each pixel.
 
