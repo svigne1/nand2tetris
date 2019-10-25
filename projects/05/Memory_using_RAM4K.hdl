@@ -45,48 +45,55 @@ CHIP Memory {
     /*
         Screen is 2 RAM4Ks 
         Total - 16,384 to 24,575
-    
-            Screen1
-            1 RAM4K has 4096 registers.
-            Memory has 15 bits, So in 15 bits.
-            1st register starts at 100000000000000 (16384)
-            Last register is 16383 + 4096 = 20479 = 100111111111111
-            20479 + 1 = 20480 = 101000000000000
-            
-            Last 3 bits need to be checked. If 100xxxxxxxxxxxx, it is screen1...
-
-            Screen2
-            1 RAM4K has 4096 registers.
-            Memory has 15 bits, So in 15 bits.
-            1st register starts at 101000000000000 (20480)
-            Last register is 20479 + 4096 = 24575 = 101111111111111
-            24575 + 1 = 24576 = 110000000000000
-            
-            Last 3 bits need to be checked. If 101xxxxxxxxxxxx, it is screen2
-
-        So, 10xxxxxxxxxxxxx is Screen, last 13 bits.
     */
-    
+    /* 
+        Screen1
+        1 RAM4K has 4096 registers.
+        Memory has 15 bits, So in 15 bits.
+        1st register starts at 100000000000000 (16384)
+        Last register is 16383 + 4096 = 20479 = 100111111111111
+        20479 + 1 = 20480 = 101000000000000
+        
+        Last 3 bits need to be checked. If 100xxxxxxxxxxxx, it is screen1...
+        So, 14th bit == 1 AND 13th bit == 0 AND 12th bit == 0
+    */
     Not(in=address[13], out=zeroThirteenth);
-    And(a=zeroThirteenth, b=address[14], out=isScreen);
-    And(a=isScreen, b=load, out=loadScreen);
-    Screen(in=in, load=loadScreen, address=address[0..12], out=outScreen);
-    
+    Not(in=address[12], out=zeroTwelth);
+
+    And(a=zeroThirteenth, b=zeroTwelth, out=isScreen1half);
+    And(a=isScreen1half, b=address[14], out=isScreen1);
+    And(a=isScreen1, b=load, out=loadScreen1);
+    RAM4K(in=in, load=loadScreen1, address=address[0..11], out=outScreen1);
+
+    /* 
+        Screen2
+        1 RAM4K has 4096 registers.
+        Memory has 15 bits, So in 15 bits.
+        1st register starts at 101000000000000 (20480)
+        Last register is 20479 + 4096 = 24575 = 101111111111111
+        24575 + 1 = 24576 = 110000000000000
+        
+        Last 3 bits need to be checked. If 101xxxxxxxxxxxx, it is screen2
+        So, 14th bit == 1 AND 13th bit == 0 AND 12th bit == 1
+    */
+    And(a=address[14], b=zeroThirteenth, out=isScreen2half);
+    And(a=isScreen2half, b=address[12], out=isScreen2);
+    And(a=isScreen2, b=load, out=loadScreen2);
+    RAM4K(in=in, load=loadScreen2, address=address[0..11], out=outScreen2);
     
     /*
         Keyboard
         24,576
 
-        First 2 bits needs to be checked. If 110000000000000, it is KBD
+        Last 3 bits need to be checked. If 110000000000000, it is KBD
         So, 14th bit == 1 AND 13th bit == 1
     */
     And(a=address[14], b=address[13], out=isKBD);
-    Keyboard(out=outKBD);
+    Register(in=in, load=false, out=outKBD);
 
     Mux16(a=false, b=outRAM, sel=isRAM, out=out1);
-    Mux16(a=out1, b=outScreen, sel=isScreen, out=out2);
-    Mux16(a=out2, b=outKBD, sel=isKBD, out=out);
-
-
+    Mux16(a=out1, b=outScreen1, sel=isScreen1, out=out2);
+    Mux16(a=out2, b=outScreen2, sel=isScreen2, out=out3);
+    Mux16(a=out3, b=outKBD, sel=isKBD, out=out);
 
 }

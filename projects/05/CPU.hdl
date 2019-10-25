@@ -76,12 +76,12 @@ CHIP CPU {
         Cyclic wiring - 
         A-register's T+1 output (Atplus) is set to computation or instruction or remains the same where computation is computed from an ALU using A-register's output at Time T (At)
     */
-    
     Nand(a=instruction[15], b=instruction[5], out=setAvalueBool);
+    Mux16(a=computation, b=instruction, sel=setAvalueBool, out=Avalue);
+
     Not(in=instruction[5], out=not5thBit);
     Nand(a=instruction[15], b=not5thBit, out=setA);
-
-    Mux16(a=computation, b=instruction, sel=setAvalueBool, out=Avalue);
+    
     ARegister(in=Avalue, load=setA, out=Atplus, out=At);
 
 

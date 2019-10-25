@@ -20,8 +20,28 @@ CHIP Computer {
 
     PARTS:
 
-    CPU(inM=outMfromMemory, instruction=instruction, reset=reset, outM=outMfromCPU, writeM=writeM, addressM=addressM, pc=nextPC);
-    Memory(in=outMfromCPU, load=writeM, address=addressM, out=outMfromMemory);
+    CPU(inM=inM, instruction=runOrStop, reset=reset, outM=outM, writeM=writeM, addressM=addressM, pc=nextPC);
+    Memory(in=outM, load=writeM, address=addressM, out=inM);
+
     Mux16(a[0..14]=nextPC, b=false, sel=reset, out[0..14]=PC);
     ROM32K(address=PC, out=instruction);
+
+    /* 
+        Make a C-isntruction that does nothing when reset is ON.
+        - 1(C), 11(Waste), 1(A), 10(x=0), 10(y=0), 10(f=0), 000(set nothing), 000 (dont jump)
+        - 1111101010000000 = -1408
+
+        But i cant set a constant right??
+        What about the constants i can make? 
+        - all zeroes - i cant use, A will change
+        - all ones - i cant use, A,D,M and PC will change
+        So, 1000000000000000 can be used.
+        It is a C-instruction that does nothing
+        It performs a random ALU operation, setting nothing, jumping nowhere
+
+        And it can set be in an easy way..., using sub-buses and true or false.
+    */
+    
+    Or16(a[0..14]=false, a[15]=true, b=false, out=standBy);
+    Mux16(a=instruction, b=standBy, sel=reset, out=runOrStop);
 }

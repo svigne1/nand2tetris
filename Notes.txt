@@ -306,33 +306,114 @@ Hack Assembly Language
 
     Hack programs need to be ended with a infinite loop. Otherwise Hackers can exploit the loophole of the computer to keep infinitely reading all sections of the ROM
 
------------------------------------------------------------------------------------------------------------------------
-3 types of info - data, control, address - Bus
-ALWAYS - 1 Data Memory register & 1 Instructions memory registers are selected. (RAM & ROM)
 
-CPU
-- There are only 3 registers.
-- ALU + 3 registers - A,D & PC is CPU
+Computer
 
-Most important thing... to know about HDL is,
-    THEY ARE NOT SEQUENTIAL. 
-    THIS IS VERY IMPORTANT WHILE COVERING CYCLIC LOOPS
-    AND NON-LINEAR USE OF DECLARED VARIABLES.
+    It is made of CPU + Memory (RAM & ROM)
+    The C-instruction needs to be understood in great detail
 
-Project5 - Completed CPU without watching the lectures and copying the architecture demonstrated there.
+    C-instruction
+
+        15th bit - A or C-instruction
+        14th & 13th - are always 11, these bits are ignored.
+        12th bit - Selects A or M as y for operation in ALU with D as x.
+        11th to 6th bit - Control bits for the ALU... zx,nx,zy,ny,f,no
+        5th, 4th, 3rd - are respectively for A, D & M. If the bit is ON, the register's takes the value of ALU.
+        2nd, 1st, 0th bits - are for <,=,>. If all 1, jump unconditionally. If all 0, don't jump.
+    
+    - Based on the instruction, the registers' values are updated. (A,D,PC,M)
+    - M is RAM[A]. And instruction is ROM[PC].
+
+Project5 (Longest Project so FAR....)
+    - Didn't watch the video, where they explain the entire architecture. Completed the project without watching since i wanted to figure it out myself
+    - Most complicated work so far. So many loops. Course is spoon-feeding students.
+    - If not for the clean segregation between CPU & memory and the neat interfaces. It would have been very difficult to understand whats going on.
+    - Most complicated part is, multiple loops.
+    - I have drawn an entire picture for CPU architecture (comitted in Git)
+
+    LOOPS
+
+    - A, D & M are input to ALU
+    - ALU is input to A, D & M
+
+    - PC is input to A, D, M & ALU
+    - ALU is input to PC
+
+    
+    CPU.hdl
+        
+        - Forgot to check whether given instruction is C or not before setting D & M registers.
+        So, even A-instructions were considered as C instructions !!! Took a long time to debug it.
+        Sat and stack-traced a binary program of 20 lines to solve the problem.
+
+    Memory.hdl
+        
+        Memory_using_ALU:- 
+            Started using ALU to subtract constants from the given address to understand what range the given 
+        address falls under. For example, 
+            1. (0 to 16,383) is RAM
+            2. (16,384 to 20479) is Screen1
+            2. (20480 to 24575) is Screen2
+            4. 24576 is Keyboard
+        So, i had 3 ALU operations... subtracted the constants 16384, 20480 & 24576 from the address to find 
+        out which range the given address belongs to and passed the address only to that segment.
+        Sadly, constants are not allowed in HDL.
+        Checked answers online. They had finished it with simple logic gates.
+
+        Memory_using_RAM4K:-
+            Started again, this time, i followed the bits carefully.. and found out a way to route the 
+        address only using logic gates. Half-way down the automatic testing, i was asked to press the
+        letter K and check the output on the screen.
+        Sadly.. my hardware emulator had NO keyboard button, or a screen output.
+        Frustrated, i posted the question online in their coursera discussion forum...
+        But since, they work in US hours, i had a lot of time to kill.. And as usual, there was always hosted answer
+        that i can check, so i checked. Turns out... there are in-built chips like Keyboard & Screen that i need to
+        use. I cant take on my own, 2 RAM4Ks and 1 register and expect the simulator to understand these RAMs &
+        registers are intended to be used as screen & keyboard. So, had to re-do it again.
+
+        Memory:- 
+            Finally, i coded it. 90% documentation and 10% coding.
+
+    Computer
+
+        - Very HARD bug... Again, had to stack-trace binary to understand it.
+        Problem was very hard to notice... what was happening was, when reset button was pressed.
+        2 things were happening together. The PC was getting set to 0. And the 0th instruction was 
+        getting executed by the CPU. This should not happen.. as per the specification, only if reset 
+        button is set to 1, program should start executing. If reset is 0. Program should stop & be 
+        reset to 0. This took 1 whole evening for me to figure out... At first glance, i didnt notice
+        the reset button being set. And i had doubts on the CPU that i wrote, so i had to recheck it as well.
+        Then, finally it clicked. Somehow !! And DONE.
+
+
+----------------------------------------------------------------------------------------------------------------------- 
 -----------------------------------------------------------------------------------------------------------------------
 
 
 
 NOT-OBVIOUS from the COURSE
 
-1. Half-Adder + Full-Adder
+1. Half-Adder & Full-Adder arithmeticfs.. why 1 + 1 = 10 and 1 + 1 + 1 = 11
 2. 2's Complement GENIUS
-3. ALU, NOT = 15 - x
-4. Coding - How non-linear HDL is. How to get multiple outputs from the gates. Each from different time T. Ex - Bit Register & CPU.
-5.
+3. ALU, the control bits can be understood only if you realize NOT = 15 - x... This Madhu helped me realize it.
+   Although.. i have seen it in the course, already myself.
+4. Coding - How non-linear HDL is. How to get multiple outputs from the gates. Each from different time T. 
+   Ex - Bit Register & CPU.
 
+MOST IMPORTANT THING TO UDERSTAND ABOUT HDL 
+1. They are NOT sequential.
+2. You can take the program, and jumble the code. The output will still be the same.
+3. It's a hardware specifying language. And in hardware, things work parallelly.
+4. So, it is very difficult to sequentially decribe a system that's working parallelly.
+5. So, the language is made in sucha way that... all the code will be read before making sense of it.
+6. So, variables declared below a line, can be used in the line without any problem.
 
+ONLY RESTRICTIONS IN HDL
+1. Only with the in & out buses, you can use sub-buses.
+2. You cant use the same intermeditate pin in 2 circuits
+3. You can't do a = b, you need to do a = b * 1. For that you need to use a OR circuit & set something some value.
+4. You cant declare constants in your code. There are only two constants you can do with true & false.
+5. If you use out multiple times on a sequential circuit, you will get outT and outT+1 from the circuit.
 
 
 
@@ -340,5 +421,6 @@ NOT-OBVIOUS from the COURSE
 
 
     
+
 
 

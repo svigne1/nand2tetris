@@ -9,4 +9,5 @@
     VM Emulator	VMEmulator.sh
     Jack Compiler	JackCompiler.sh
 
-zip -xj projectx.zip files
+-> How to zip files and submit
+    zip -xj projectx.zip files
