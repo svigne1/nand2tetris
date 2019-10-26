@@ -384,6 +384,12 @@ Project5 (Longest Project so FAR....)
         reset to 0. This took 1 whole evening for me to figure out... At first glance, i didnt notice
         the reset button being set. And i had doubts on the CPU that i wrote, so i had to recheck it as well.
         Then, finally it clicked. Somehow !! And DONE.
+        - This hack... should not be handled at Computer level.. Actually i forgot, the reset bit in CPU.
+        This reset bit was not coded properly in the CPU. As a result, whenever the reset bit was ON, the 
+        execution of the instruction never stopped. This error i made in CPU, was not caught by the tests 
+        they wrote !!! And it leaked into the Computer tests.. So, i had to write work-arounds at the 
+        computer.hdl level... which has been corrected, handled at CPU level, and the code in Computer 
+        has been returned to normal.
 
 
 ----------------------------------------------------------------------------------------------------------------------- 
@@ -407,6 +413,8 @@ MOST IMPORTANT THING TO UDERSTAND ABOUT HDL
 4. So, it is very difficult to sequentially decribe a system that's working parallelly.
 5. So, the language is made in sucha way that... all the code will be read before making sense of it.
 6. So, variables declared below a line, can be used in the line without any problem.
+7. There is no IF-ELSE in hardware. Current always goes to all places. For example, the ALU runs even when a A-instruction is passed. Another example is, input goes to every single register in the RAM, even if only 
+one register has to be updated. 
 
 ONLY RESTRICTIONS IN HDL
 1. Only with the in & out buses, you can use sub-buses.

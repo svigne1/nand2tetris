@@ -20,7 +20,7 @@ CHIP Computer {
 
     PARTS:
 
-    CPU(inM=inM, instruction=runOrStop, reset=reset, outM=outM, writeM=writeM, addressM=addressM, pc=nextPC);
+    CPU(inM=inM, instruction=instruction, reset=reset, outM=outM, writeM=writeM, addressM=addressM, pc=nextPC);
     Memory(in=outM, load=writeM, address=addressM, out=inM);
 
     Mux16(a[0..14]=nextPC, b=false, sel=reset, out[0..14]=PC);
@@ -40,8 +40,14 @@ CHIP Computer {
         It performs a random ALU operation, setting nothing, jumping nowhere
 
         And it can set be in an easy way..., using sub-buses and true or false.
+
+        ^^^ THIS IS NOT REQUIRED ANYMORE... THE RESET BIT IN CPU DIDN'T STOP 
+        INSTRUCTION EXECUTION WHEN IT WAS SET.
+        THIS IGNORANCE LET TO THE FAILURE OF COMPUTER.HDL TESTS.
+        THIS WORK-AROUND SOLVED THE PROBLEM FROM THE COMPUTER SIDE.. 
+        -> BUT A FIX HAS BEEN INTRODUCED TO CPU.HDL NOW.. SO THIS WORK-AROUND IS NOT REQUIRED ANYMORE.
     */
     
-    Or16(a[0..14]=false, a[15]=true, b=false, out=standBy);
-    Mux16(a=instruction, b=standBy, sel=reset, out=runOrStop);
+    // Or16(a[0..14]=false, a[15]=true, b=false, out=standBy);
+    // Mux16(a=instruction, b=standBy, sel=reset, out=runOrStop);
 }
