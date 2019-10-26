@@ -1,0 +1,2 @@
+This file is added because .... it's an instruction in the course.
+This lets them know ... whether i have opted for programming or hand-written option for completing project6

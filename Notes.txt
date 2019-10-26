@@ -391,10 +391,48 @@ Project5 (Longest Project so FAR....)
         computer.hdl level... which has been corrected, handled at CPU level, and the code in Computer 
         has been returned to normal.
 
+Project6
+
+    Very BAD. Had to choose any programming language and wrtie a program to convert assembly language code to binary language.
+    
+    - I didn't catch syntax errors, semantic errors etc.
+    - If the computation is D, then, whatever value you send, A or M, it will be set to 0 through zy control bit.
+      But the CPUEmulator is very picky about choosing M, in that case... When i wrote assembler to pick A by default,
+      my code BROKE !!!! Took whole evening to debug and realize that. Could'nt figure out why... the emulator was also
+      not very informative. I just guessed and changed the control bits to exactly what was shown in the course and
+      everything started working perfectly.
+    - One Pong game is equivalent to 28,000 lines of machine language code !!!
+    - Assembled my previous code from project4 as well using this assembler code. They are named as 
+      Name_my_assembler_from_project6.hack
+
+****************************** Nand2Tetris Part1 Review *********************************
+
+Pluses are :-
+    - Great Projects !!
+    - Like the saying "Simplicity is beauty", both the authors' presentations were very simple
+    - I thoroughly enjoyed the course.
+
+Minuses are :-
+
+    - Justification for the behaviour of Half-Adders & Full-Adders was not covered.
+    - Magic of ALU control bits was not explicitly explained.
+    - In project6, since Assembler was not written in Binary language, the hardship of making a real assembler in machine language was not felt leaving the project a little unsatisfactory.
+
+Final Verdict :-
+    - Thank you so much for making this course.
+    - You guys have written, an Assembler, Hardware-emualtor, Cpu-emulator etc.
+    - And the graphics that comes with "Program & Data Flow" option is simply icing on the cake.
+    - And to top this, this entire course can be audited free of cost.
+    - This is a thankless service you guys have regardlessly rendered.
+    - Great Respect & Massive Gratitude i have for you guys.
+    - Thank you so much. Much appreciated.
+
+****************************** End of Nand2Tetris Part1 *********************************
+
 
 ----------------------------------------------------------------------------------------------------------------------- 
------------------------------------------------------------------------------------------------------------------------
 
+-----------------------------------------------------------------------------------------------------------------------
 
 
 NOT-OBVIOUS from the COURSE
