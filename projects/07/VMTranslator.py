@@ -53,11 +53,16 @@ def popToMD():
     # Now, x in D, & y in M
     print("@13", file=output)
 
+# This creates 3 labels
+# One that returns 0 as output for False (D.zeroes)
+# One that returns 1 as output for True (D.ones)
+# One that acts as a if-else, preventing both labels from running together (pushD)
+# Index is added to the labels for uniqueness.
 def prepareBoolean(index):
     
     # Index is required to make the jump labels unique to this transaction
     # There can be many such add, subtract commands in a file, they should always 
-    # jump forwards, not backwards and cause a loop
+    # jump forwards, not backwards to a previous subtract commands labels and cause a loop
     
     # D.zeroes -> Sets D as sixteen 0s.. 0000000000000000 (0) & exits to pushD
     print("(" + index + "D.zeroes)", file=output)
@@ -78,38 +83,44 @@ def prepareBoolean(index):
     print("(" + index + "pushD)", file=output)
     pushD()
 
-
-def add_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def add_(index):
     popToMD()
     print("D=D+M", file=output)
     pushD()
 
-def sub_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def sub_(index):
     popToMD()
     print("D=D-M", file=output)
     pushD()
 
-def and_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def and_(index):
     popToMD()
     print("D=D&M", file=output)
     pushD()
 
-def or_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def or_(index):
     popToMD()
     print("D=D|M", file=output)
     pushD()
 
-def neg_(index, args):
+# Pops only 1 thing, So, pop y to D
+def neg_(index):
     popToD()
     print("D=-D", file=output)
     pushD()
 
-def not_(index, args):
+# Pops only 1 thing, So, pop y to D
+def not_(index):
     popToD()
     print("D=!D", file=output)
     pushD()
 
-def eq_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def eq_(index):
     popToMD()
     print("D=D-M", file=output)
     # If 0, x & y are equal, jump to D.ones
@@ -120,8 +131,8 @@ def eq_(index, args):
     # it will auto-proceed to D.zeroes
     prepareBoolean(index)
     
-
-def gt_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def gt_(index):
     popToMD()
     print("D=D-M", file=output)
     # If 0, x & y are equal, jump to D.ones
@@ -132,7 +143,8 @@ def gt_(index, args):
     # it will auto-proceed to D.zeroes
     prepareBoolean(index)
 
-def lt_(index, args):
+# Pops 2 things, So, pop y to M and x to D
+def lt_(index):
     popToMD()
     print("D=D-M", file=output)
     # If 0, x & y are equal, jump to D.ones
@@ -144,7 +156,7 @@ def lt_(index, args):
     prepareBoolean(index)
 
 # Fetch address in A
-def local_(index, offset):
+def local_(offset):
     # Base location
     print("@LCL", file=output)
     print("D=M", file=output)
@@ -153,7 +165,7 @@ def local_(index, offset):
     print("A=D+A", file=output)
 
 # Fetch address in A
-def argument_(index, offset):
+def argument_(offset):
     # Base location
     print("@ARG", file=output)
     print("D=M", file=output)
@@ -162,7 +174,7 @@ def argument_(index, offset):
     print("A=D+A", file=output)
 
 # Fetch address in A
-def this_(index, offset):
+def this_(offset):
     # Base location
     print("@THIS", file=output)
     print("D=M", file=output)
@@ -171,7 +183,7 @@ def this_(index, offset):
     print("A=D+A", file=output)
 
 # Fetch address in A
-def that_(index, offset):
+def that_(offset):
     # Base location
     print("@THAT", file=output)
     print("D=M", file=output)
@@ -180,14 +192,14 @@ def that_(index, offset):
     print("A=D+A", file=output)
 
 # Fetch address in A
-def pointer_(index, offset):
+def pointer_(offset):
     if(offset == "0"):
         print("@THIS", file=output)
     if(offset == "1"):
         print("@THAT", file=output)
 
 # Fetch address in A
-def temp_(index, offset):
+def temp_(offset):
     # Base location
     print("@5", file=output)
     print("D=A", file=output)
@@ -196,7 +208,9 @@ def temp_(index, offset):
     print("A=D+A", file=output)
 
 # Fetch address in A
-def constant_(index, offset):
+# Since A is used as a pointer to a address than as value by everyone else
+# Save the value of A in 13 and point A to 13
+def constant_(offset):
     # Constant
     print("@"+offset, file=output)
     print("D=A", file=output)
@@ -204,10 +218,12 @@ def constant_(index, offset):
     print("M=D", file=output)
 
 # Fetch address in A
-def static_(index, offset):
+def static_(offset):
     # @Filename.offset
     print("@" + filename + "." + offset, file=output)
 
+# Every syntax word has a function associated with it which will do the work.
+# All functions return by setting the A register.
 segment = {
     "local": local_,
     "argument": argument_,
@@ -218,38 +234,45 @@ segment = {
     "pointer": pointer_,
     "temp": temp_,
 }
-    
+
+# Args contain the next keyword & offset
+# index is used to name the labels uniquely by subsequent functions.
+# Push reads the value from the memory location saved in A register & pushes the value to stack
 def push_(index, args):
+    # removing push
     args = args[1:3]
 
+    # Same as command in loop
     segment_ = segment.get(args[0], lambda: print("ERROR", file=output))
-    segment_(index, args[1])
+    segment_(args[1])
+    
     # If Push, put the value(M) of address(A) in D
     print("D=M", file=output)
-    # Set stack to value in D
-    print("@SP", file=output)
-    print("A=M", file=output)
-    print("M=D", file=output)
-    # Increment stack
-    print("@SP", file=output)
-    print("M=M+1", file=output)
 
+    # Push D to Stack
+    pushD()
+
+# Args contain the next keyword & offset
+# index is used to name the labels uniquely by subsequent functions.
+# Pop modifies the value stored in the memory location stored in A register.
+# A register is a pointer here. And the memory it points, is changed using the stack
 def pop_(index, args):
+    # removing pop
     args = args[1:3]
 
+    # Same as command in loop
     segment_ = segment.get(args[0], lambda: print("ERROR", file=output))
-    segment_(index, args[1])
+    segment_(args[1])
     
-    # If Pop, put the address (A) in 13
+    # If Pop, save the address (A) in 13
     print("D=A", file=output)
     print("@13", file=output)
     print("M=D", file=output)
-    # Set D to stack value by popping
-    print("@SP", file=output)
-    print("AM=M-1", file=output)
-    print("D=M", file=output)
+    
+    # Pop the stack's value into D
+    popToD()
 
-    # Set D to address found in 13
+    # Set D as value in the address found in 13
     print("@13", file=output)
     print("A=M", file=output)
     print("M=D", file=output)
@@ -257,6 +280,8 @@ def pop_(index, args):
 
 for index, line in enumerate(f):
     
+    # For concatenation with strings
+    index = str(index)
     # Extract whatever code comes before the beginning of a comment
     no_comments = line.split("//", 1)[0]
     # Remove spaces before & after
@@ -269,11 +294,11 @@ for index, line in enumerate(f):
     # Have the vm code as comment in hack code
     print("// " + no_spaces, file=output)
 
+    # Let's try to parse this thing.
     split_by_spaces = no_spaces.split(" ")
 
+    # A function for each keyword.
     command = {
-        "push": push_,
-        "pop": pop_,
         "add": add_,
         "sub": sub_,
         "eq": eq_,
@@ -283,10 +308,15 @@ for index, line in enumerate(f):
         "or": or_,
         "neg": neg_,
         "not": not_
-
     }
-    command_ = command.get(split_by_spaces[0], lambda: print("ERROR", file=output))
-    command_(str(index), split_by_spaces)
+
+    if(split_by_spaces[0] == "push"):
+        push_(index, split_by_spaces)
+    elif(split_by_spaces[0] == "pop"):   
+        pop_(index, split_by_spaces)
+    else:
+        command_ = command.get(split_by_spaces[0], lambda: print("ERROR", file=output))
+        command_(str(index))
     
 
 output.close()
