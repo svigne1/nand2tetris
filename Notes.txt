@@ -428,6 +428,117 @@ Final Verdict :-
     - Thank you so much. Much appreciated.
 
 ****************************** End of Nand2Tetris Part1 *********************************
+****************************** Start of Nand2Tetris Part2 *********************************
+
+GOAL
+    To build a high-level software language like Java. So, goal is to build Jack.
+    So, Jack to Binary.
+
+    But the problem is, in our Hack computer, we have used certain conventions.
+    For example, for addition, we use a 16 bit number, whose c5th bit should be 1.
+    This need not have been the case in some other hardware design.
+    So, most likely, each hardware producer would have tried to pack different 
+    intructions inside the same 16-bits.. WHY.. Some hardwares are not even 16-bits.
+    They are 32 bits. They can do more functions than what our hardware can represent 
+    & perform.
+
+    As a result, compiling our Jack language, is divided into 2 processes.
+    And this is where virtualization comes into picture.
+
+Virtualization
+
+    As a compiler, we compile our Jack language only to this imaginary VM that we have designed.
+    This VM is a design that provisions all of its workload in the form of a stack operation.
+
+    There is a stack, to which data can be pushed or popped.
+    For simplicity, there is only ONE entryway through which data can enter or exit.
+    To avoid complexity.
+    Entering the stack is known as push. Exiting the stack is known as pop.
+    And 9 different operations are possible on the data existing in the stack.
+
+    9 Arithmetic Operations
+
+        Add, Sub,  EQ,  GT, LT,  AND,  OR,  NOT, Neg
+        x+y  x-y  x==y  x>y x<y  x&y   x|y  !y   -y
+
+        where, following is the order in which x and y reside on the stack 
+        TOP
+         y 
+         x 
+        END 
+    
+    On top of this, there is a virtualization on the underlying hardware memory segment as well.
+    In the imaginary VM that we are compiling for, there are 8 different memory segments not one.
+
+    8 Memory segments
+
+        LOCAL (LCL), ARGUMENT (ARG), THIS, THAT, STATIC, TEMP, POINTER, CONSTANT
+
+        - All the variables local to a function (that's currently being executed) are provisioned from and
+        maintained inside LOCAL memory segment.
+        - All the arguments passed to a function (being currently executed) are stored in the ARGUMENT 
+        memory segment.
+        - Functions that are invoked on an object, will need access to that object's contents.
+        So, the object is copied to the THIS memory segment.
+        - Arrays that are currently being used, are copied to the THAT segment.
+        - POINTER is a pointer to a pointer. POINTER 0 refers to the memory location of THIS, which is a pointer 
+        (Copying is a waste of time, So, THIS & THAT are pointers in the actual implementation, not seperate memory
+         segments of their own, to which objects & arrays are copied to. Instead, THIS & THAT in practise are 
+         pointers to the memory location of the actual memory segment)
+        In that sense, POINTER 1 is a way of referring to to memory location of THAT. (A pointer to a pointer)
+        - All the STATIC variables created in a program resides in this segment.
+        - All TEMP variables used by the compiler for it's own processing resides in this segment.
+        - CONSTANT, is a memory segment holding the world's constants stored in it.
+
+Implementation of the Virtualization
+
+    Since behind the virtualization, there is only one memory segment in our Hack computer. 
+    All of these different concepts reside in it, in a very cramped way. 
+
+    POINTER, THIS, THAT are simply pointers in implementation. So, they are merely 3 registers holding the 
+    values of memory locations of the main memory.
+    
+    There is no need for dedicating a whole memory unit to simply store constants & nothing else.
+    In Hack computer, constants can be directly referenced. So, memory reservation to access them
+    is not required. So, in reality, CONSTANT memory segment does not exist. Instead, the word CONSTANT 
+    is simply a syntax for the translator to know what follows is direct data.
+
+    All the other memory segments are simply randomnly allocated a
+    
+    To manage the virtualization, we use 5 registers - SP, LCL, ARG, THIS, THAT
+    Since, CONSTANT is never reserved in the physical memory. There is no register for that.
+    Pointer 0 & Pointer 1 are just shortcuts to refer to the memory location of THIS & THAT registers,
+    which can be hard-coded in the hack computer.
+    Same applies for TEMP as well. It starts at 5 and runs till 12. (8 temp variables for the compiler to use)
+
+    Since Stack also needs a memory segment, we use the SP register to keep track of where this memory segment
+    starts in the real physical memory location.
+    
+    Note :- Nobody cares what goes on behind the scenes. As far as, the promises made in the fore-ground
+    are upheld - Nobody bothers. So, there are no rules in the background. If you can take up the head-ache, you can manage all of the memory segments in the same physical memory segment or provision seperate memory segments for them. There are no rules.
+    
+    These 8 registers hold the exact memory location of all the 8 memory segments.
+    
+    SP - 0
+    LCL - 1
+    ARG - 2
+    THIS - 3
+    THAT - 4
+    POINTER 0 is not a register. It is a symbol for refering 3 (THIS)
+    POINTER 1 is not a register. It is a symbol for refering 4 (THAT)
+    TEMP is also not a register. It refers to 5. There are 8 temp variables dedicated to the compiler, 5 to 12)
+    R13, R14, R15 (are Assembler's 3 temp registers)
+    STATIC - 16 to 255
+    STACK - 256 
+
+
+
+
+
+
+    
+
+
 
 
 ----------------------------------------------------------------------------------------------------------------------- 

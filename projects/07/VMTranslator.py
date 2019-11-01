@@ -181,12 +181,10 @@ def that_(index, offset):
 
 # Fetch address in A
 def pointer_(index, offset):
-    # THIS
-    location = 3 
-    # THAT
+    if(offset == "0"):
+        print("@THIS", file=output)
     if(offset == "1"):
-        location = 4
-    print("@"+str(location), file=output)
+        print("@THAT", file=output)
 
 # Fetch address in A
 def temp_(index, offset):
