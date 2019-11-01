@@ -453,6 +453,8 @@ Pointer 1 - That
 Local, Argument, Static, this, that, pointer, constant, temp
 
 SP, LCL, ARG, this & that are already there in the assembler i wrote in previous project.
+
+VMTranslator_less_code_more_complex.py -> Give file.vm, in same path it will give file.asm
 -----------------------------------------------------------------------------------------------------------------------
 
 

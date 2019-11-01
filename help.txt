@@ -17,3 +17,12 @@
     cd /Users/svigne1/Desktop/nand2tetris/projects/07
     python3 VM_Translator_complex_and_minified.py test.vm > test.asm
     python3 ../06/assembler.py test.asm  > test.hack
+
+-> To translate all files at once
+
+    find . | grep .vm | sed 's/^..//g' | sed -e 's/^/python3 VMTranslator.py /'
+    
+    1. find . -> gives all files with full path from current directory
+    2. grep .vm -> selects only vm files
+    3. sed 's/^..//g' -> Removes the first two characters (./) from every line in the output
+    4. sed -e 's/^/python3 VMTranslator.py /' -> Adds the prefix python3 VMTranslator to every line.

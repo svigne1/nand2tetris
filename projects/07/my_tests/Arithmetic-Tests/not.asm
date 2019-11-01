@@ -1,11 +1,3 @@
-// push constant 10
-@10
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
 // push constant 8
 @8
 D=A
@@ -14,29 +6,47 @@ A=M
 M=D
 @SP
 M=M+1
-// neg
+// not
 @SP
 AM=M-1
 D=M
-D=-D
+D=!D
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 500
-@500
-D=A
+// push constant 8
+@8
+D=M
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// neg
+// not
 @SP
 AM=M-1
 D=M
-D=-D
+D=!D
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 8
+@8
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// not
+@SP
+AM=M-1
+D=M
+D=!D
 @SP
 A=M
 M=D

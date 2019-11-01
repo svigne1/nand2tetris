@@ -14,7 +14,7 @@ A=M
 M=D
 @SP
 M=M+1
-// sub
+// add
 @SP
 AM=M-1
 D=M
@@ -24,7 +24,7 @@ M=D
 AM=M-1
 D=M
 @13
-D=D-M
+D=D+M
 @2pushToStack
 0;JMP
 (2return1)
@@ -43,23 +43,23 @@ A=M
 M=D
 @SP
 M=M+1
-// push constant 9
-@9
-D=A
+// push constant 10
+@10
+D=M
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 19
-@19
-D=A
+// push constant 8
+@8
+D=M
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// sub
+// add
 @SP
 AM=M-1
 D=M
@@ -69,20 +69,7 @@ M=D
 AM=M-1
 D=M
 @13
-D=D-M
-@6pushToStack
-0;JMP
-(6return1)
-@1
-D=A
-@6pushToStack
-0;JEQ
-(6return0)
-@0
-D=A
-@6pushToStack
-0;JEQ
-(6pushToStack)
+D=D+M
 @SP
 A=M
 M=D

@@ -218,3 +218,171 @@ A=M
 M=D
 @SP
 M=M+1
+// push constant 1111
+@1111
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 0
+@0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 0
+@0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// or
+@SP
+AM=M-1
+D=M
+@13
+M=D
+@SP
+AM=M-1
+D=M
+@13
+D=D|M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1111
+@1111
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 0
+@0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1
+@1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// or
+@SP
+AM=M-1
+D=M
+@13
+M=D
+@SP
+AM=M-1
+D=M
+@13
+D=D|M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1111
+@1111
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1
+@1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 0
+@0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// or
+@SP
+AM=M-1
+D=M
+@13
+M=D
+@SP
+AM=M-1
+D=M
+@13
+D=D|M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1111
+@1111
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1
+@1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1
+@1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// or
+@SP
+AM=M-1
+D=M
+@13
+M=D
+@SP
+AM=M-1
+D=M
+@13
+D=D|M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push constant 1111
+@1111
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
