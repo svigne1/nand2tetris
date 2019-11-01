@@ -3,7 +3,7 @@ import sys
 
 # File Argument
 if(len(sys.argv) != 2):
-    sys.exit("Pass the file to assemble as command line argument. Don't pass any other arguments")
+    sys.exit("Pass the file to translate as command line argument. Don't pass any other arguments")
 
 vm_file = sys.argv[1]
 
@@ -12,9 +12,16 @@ filename = vm_file.split("/")[-1].split(".")[0]
 # Read file
 f = open(vm_file, "r")
 
-print(vm_file.split(".")[0] + ".asm")
+# Write file
+output_file = vm_file.split(".")[0] + ".asm"
+# print(output_file)
 
-output = open(vm_file.split(".")[0] + ".asm", "a")
+# Delete if already exists
+import os
+if os.path.exists(output_file):
+    os.remove(output_file)
+
+output = open(output_file, "a")
 
 
 def pushD():
@@ -52,17 +59,18 @@ def prepareBoolean(index):
     # There can be many such add, subtract commands in a file, they should always 
     # jump forwards, not backwards and cause a loop
     
-    # D0 -> Sets D as 0 & exits to pushD
-    print("(" + index + "D0)", file=output)
+    # D.zeroes -> Sets D as sixteen 0s.. 0000000000000000 (0) & exits to pushD
+    print("(" + index + "D.zeroes)", file=output)
     print("@0", file=output)
     print("D=A", file=output)
     print("@" + index + "pushD", file=output)
     print("0;JMP", file=output)
     
-    # D0 -> Sets D as 1 & exits to pushD
-    print("(" + index + "D1)", file=output)
-    print("@1", file=output)
-    print("D=A", file=output)
+    # D.ones -> Sets D as sixteen 1s... 1111111111111111 (-1) & exits to pushD
+    print("(" + index + "D.ones)", file=output)
+    # !0 = 1111111111111111
+    print("@0", file=output)
+    print("D=!A", file=output)
     print("@" + index + "pushD", file=output)
     print("0;JMP", file=output)
     
@@ -104,35 +112,35 @@ def not_(index, args):
 def eq_(index, args):
     popToMD()
     print("D=D-M", file=output)
-    # If 0, x & y are equal, jump to D1
-    print("@" + index + "D1", file=output)
+    # If 0, x & y are equal, jump to D.ones
+    print("@" + index + "D.ones", file=output)
     print("D;JEQ", file=output)
-    # D0 comes first in prepareBoolean
-    # So, if jump to D1 doesn't happen above,
-    # it will auto-proceed to D0
+    # D.zeroes comes first in prepareBoolean
+    # So, if jump to D.ones doesn't happen above,
+    # it will auto-proceed to D.zeroes
     prepareBoolean(index)
     
 
 def gt_(index, args):
     popToMD()
     print("D=D-M", file=output)
-    # If 0, x & y are equal, jump to D1
-    print("@" + index + "D1", file=output)
+    # If 0, x & y are equal, jump to D.ones
+    print("@" + index + "D.ones", file=output)
     print("D;JGT", file=output)
-    # D0 comes first in prepareBoolean
-    # So, if jump to D1 doesn't happen above,
-    # it will auto-proceed to D0
+    # D.zeroes comes first in prepareBoolean
+    # So, if jump to D.ones doesn't happen above,
+    # it will auto-proceed to D.zeroes
     prepareBoolean(index)
 
 def lt_(index, args):
     popToMD()
     print("D=D-M", file=output)
-    # If 0, x & y are equal, jump to D1
-    print("@" + index + "D1", file=output)
+    # If 0, x & y are equal, jump to D.ones
+    print("@" + index + "D.ones", file=output)
     print("D;JLT", file=output)
-    # D0 comes first in prepareBoolean
-    # So, if jump to D1 doesn't happen above,
-    # it will auto-proceed to D0
+    # D.zeroes comes first in prepareBoolean
+    # So, if jump to D.ones doesn't happen above,
+    # it will auto-proceed to D.zeroes
     prepareBoolean(index)
 
 # Fetch address in A
@@ -193,11 +201,14 @@ def temp_(index, offset):
 def constant_(index, offset):
     # Constant
     print("@"+offset, file=output)
+    print("D=A", file=output)
+    print("@13", file=output)
+    print("M=D", file=output)
 
 # Fetch address in A
 def static_(index, offset):
     # @Filename.offset
-    print("@" + filename + "." + index, file=output)
+    print("@" + filename + "." + offset, file=output)
 
 segment = {
     "local": local_,
@@ -232,8 +243,9 @@ def pop_(index, args):
     segment_(index, args[1])
     
     # If Pop, put the address (A) in 13
+    print("D=A", file=output)
     print("@13", file=output)
-    print("M=A", file=output)
+    print("M=D", file=output)
     # Set D to stack value by popping
     print("@SP", file=output)
     print("AM=M-1", file=output)

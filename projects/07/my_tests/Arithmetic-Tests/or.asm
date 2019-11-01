@@ -1,6 +1,9 @@
 // push constant 1111
 @1111
 D=A
+@13
+M=D
+D=M
 @SP
 A=M
 M=D
@@ -9,6 +12,9 @@ M=M+1
 // push constant 0
 @0
 D=A
+@13
+M=D
+D=M
 @SP
 A=M
 M=D
@@ -17,225 +23,8 @@ M=M+1
 // push constant 0
 @0
 D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// or
-@SP
-AM=M-1
-D=M
 @13
 M=D
-@SP
-AM=M-1
-D=M
-@13
-D=D|M
-@5pushToStack
-0;JMP
-(5return1)
-@1
-D=A
-@5pushToStack
-0;JEQ
-(5return0)
-@0
-D=A
-@5pushToStack
-0;JEQ
-(5pushToStack)
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1111
-@1111
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 0
-@0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// or
-@SP
-AM=M-1
-D=M
-@13
-M=D
-@SP
-AM=M-1
-D=M
-@13
-D=D|M
-@10pushToStack
-0;JMP
-(10return1)
-@1
-D=A
-@10pushToStack
-0;JEQ
-(10return0)
-@0
-D=A
-@10pushToStack
-0;JEQ
-(10pushToStack)
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1111
-@1111
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 0
-@0
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// or
-@SP
-AM=M-1
-D=M
-@13
-M=D
-@SP
-AM=M-1
-D=M
-@13
-D=D|M
-@15pushToStack
-0;JMP
-(15return1)
-@1
-D=A
-@15pushToStack
-0;JEQ
-(15return0)
-@0
-D=A
-@15pushToStack
-0;JEQ
-(15pushToStack)
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1111
-@1111
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1
-@1
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// or
-@SP
-AM=M-1
-D=M
-@13
-M=D
-@SP
-AM=M-1
-D=M
-@13
-D=D|M
-@20pushToStack
-0;JMP
-(20return1)
-@1
-D=A
-@20pushToStack
-0;JEQ
-(20return0)
-@0
-D=A
-@20pushToStack
-0;JEQ
-(20pushToStack)
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1111
-@1111
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 1111
-@1111
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 0
-@0
-D=M
-@SP
-A=M
-M=D
-@SP
-M=M+1
-// push constant 0
-@0
 D=M
 @SP
 A=M
@@ -260,6 +49,9 @@ M=D
 M=M+1
 // push constant 1111
 @1111
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -268,6 +60,9 @@ M=D
 M=M+1
 // push constant 0
 @0
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -276,6 +71,9 @@ M=D
 M=M+1
 // push constant 1
 @1
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -300,6 +98,9 @@ M=D
 M=M+1
 // push constant 1111
 @1111
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -308,6 +109,9 @@ M=D
 M=M+1
 // push constant 1
 @1
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -316,6 +120,9 @@ M=D
 M=M+1
 // push constant 0
 @0
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -340,6 +147,9 @@ M=D
 M=M+1
 // push constant 1111
 @1111
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -348,6 +158,9 @@ M=D
 M=M+1
 // push constant 1
 @1
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -356,6 +169,9 @@ M=D
 M=M+1
 // push constant 1
 @1
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
@@ -380,6 +196,9 @@ M=D
 M=M+1
 // push constant 1111
 @1111
+D=A
+@13
+M=D
 D=M
 @SP
 A=M
