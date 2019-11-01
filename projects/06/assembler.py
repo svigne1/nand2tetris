@@ -10,12 +10,14 @@ asm_file = sys.argv[1]
 # Read file
 f = open(asm_file, "r")
 
+# Convert decimal number 12 to 1100
 def decimal2Binary(number):
     if(number > 1):
         return decimal2Binary(number // 2) + str(number % 2)
     else:
         return str(number)
 
+# Padds a given binary number with zeroes to make it a 16-bit binary number.
 def binary16(binary):
     if(len(binary) >= 16):
         return binary
@@ -47,6 +49,7 @@ symbols = {
     "THIS": 3,
     "THAT": 4
 }
+
 computation = {
     "0":"101010",  
     "1":"111111",  
@@ -196,7 +199,7 @@ for index, line in enumerate(code):
     
     print(binary)
 
-print("If you want to save the output. Then in bash, pipe the output to a file and delete this line, check last comment in code, to see how its done.")
+# print("If you want to save the output. Then in bash, pipe the output to a file and delete this line, check last comment in code, to see how its done.")
 
 """
     python3 assembler.py pong/Pong.asm > pong/Pong.hack

@@ -1,0 +1,8 @@
+push constant 10
+push constant 8
+neg 
+
+push constant 500
+neg
+
+// answer = -8, -500

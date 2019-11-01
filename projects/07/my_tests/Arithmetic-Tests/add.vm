@@ -1,0 +1,5 @@
+push constant 10
+push constant 8
+add 
+
+// answer - 18

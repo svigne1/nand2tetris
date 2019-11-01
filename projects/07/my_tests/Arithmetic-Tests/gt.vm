@@ -1,0 +1,10 @@
+push constant 10
+push constant 8
+gt 
+
+
+push constant 23
+push constant 47
+gt 
+
+// answer - 10 > 8, True = 1 || 23 > 47, False = 0

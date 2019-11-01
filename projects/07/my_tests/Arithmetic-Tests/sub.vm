@@ -1,0 +1,9 @@
+push constant 10
+push constant 8
+sub
+
+push constant 9
+push constant 19
+sub
+
+// answer - 2, -10

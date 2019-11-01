@@ -11,3 +11,9 @@
 
 -> How to zip files and submit
     zip -xj projectx.zip files
+
+
+-> Translator to Assembler
+    cd /Users/svigne1/Desktop/nand2tetris/projects/07
+    python3 VM_Translator_complex_and_minified.py test.vm > test.asm
+    python3 ../06/assembler.py test.asm  > test.hack

@@ -1,0 +1,10 @@
+push constant 9
+push constant 9
+eq
+
+push constant 12
+push constant 13
+eq
+
+// answer -  9 == 9, True = 1 || 12 == 13, False = 0
+

@@ -1,0 +1,25 @@
+// Between each 1111, the output of an operation will be present.
+
+push constant 1111
+push constant 0
+push constant 0
+or
+
+push constant 1111
+push constant 0
+push constant 1
+or
+
+push constant 1111
+push constant 1
+push constant 0
+or
+
+push constant 1111
+push constant 1
+push constant 1
+or
+
+push constant 1111
+
+// answer - 0, 1, 1, 1

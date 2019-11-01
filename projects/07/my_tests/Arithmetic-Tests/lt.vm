@@ -1,0 +1,10 @@
+push constant 10
+push constant 8
+lt 
+
+
+push constant 23
+push constant 47
+lt 
+
+// answer - 10 < 8, False = 0 || 23 < 47, True = 1
