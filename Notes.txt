@@ -497,75 +497,71 @@ Implementation of the Virtualization
 
     POINTER, THIS, THAT are simply pointers in implementation. So, they are merely 3 registers holding the 
     values of memory locations of the main memory.
+
+    LOCAL, ARGUMENT, STATIC, TEMP are also simply pointers. Since there is no dedicated memory segments for 
+    any of these.
+
+    A random location in the memory is chosen for each of these virtual memory segments & the chosen memory 
+    location is stored in a register which acts like a pointer.
+
+    So, all virutal memory segments are simply pointers to various locations in the single memory segment.
     
-    There is no need for dedicating a whole memory unit to simply store constants & nothing else.
+    CONSTANTS - 
+        There is no need for dedicating a whole memory unit to simply store constants & nothing else.
     In Hack computer, constants can be directly referenced. So, memory reservation to access them
     is not required. So, in reality, CONSTANT memory segment does not exist. Instead, the word CONSTANT 
     is simply a syntax for the translator to know what follows is direct data.
 
-    All the other memory segments are simply randomnly allocated a
-    
-    To manage the virtualization, we use 5 registers - SP, LCL, ARG, THIS, THAT
-    Since, CONSTANT is never reserved in the physical memory. There is no register for that.
-    Pointer 0 & Pointer 1 are just shortcuts to refer to the memory location of THIS & THAT registers,
-    which can be hard-coded in the hack computer.
-    Same applies for TEMP as well. It starts at 5 and runs till 12. (8 temp variables for the compiler to use)
+    This is the DOC for the virtual memory segments.
+    Pointer     RAM address         Comments
+    SP              0               This is the stack register, Pointer to location of stack in memory
+    LCL             1               Pointer holding location of Local segment
+    ARG             2               Pointer holding location of Argument segment
+    THIS            3               Pointer holding location of current THIS object
+    THAT            4               Pointer holding location of current array
+    POINTER 0       3               Pointer to THIS pointer's memory location
+    POINTER 1       4               Pointer to THAT pointer's memory location
+    TEMP            5               This is not a pointer. This is the actual place of TEMP segment in memory
+    STATIC          16              Not a pointer. Actual place where STATIC segment starts in memory
 
-    Since Stack also needs a memory segment, we use the SP register to keep track of where this memory segment
-    starts in the real physical memory location.
-    
-    Note :- Nobody cares what goes on behind the scenes. As far as, the promises made in the fore-ground
-    are upheld - Nobody bothers. So, there are no rules in the background. If you can take up the head-ache, you can manage all of the memory segments in the same physical memory segment or provision seperate memory segments for them. There are no rules.
-    
-    These 8 registers hold the exact memory location of all the 8 memory segments.
-    
-    SP - 0
-    LCL - 1
-    ARG - 2
-    THIS - 3
-    THAT - 4
-    POINTER 0 is not a register. It is a symbol for refering 3 (THIS)
-    POINTER 1 is not a register. It is a symbol for refering 4 (THAT)
-    TEMP is also not a register. It refers to 5. There are 8 temp variables dedicated to the compiler, 5 to 12)
-    R13, R14, R15 (are Assembler's 3 temp registers)
-    STATIC - 16 to 255
-    STACK - 256 
+    RAM[5-12] are dedicated for TEMP variables used by compiler
+    RAM[13-15] are dedicated for TEMP variables used by translator
+    RAM[256] is the starting place of STACK stored in SP register.
 
+Usage
 
+    push local 12 
+    -> LCL pointer holds the address where LCL memory segments starts.
+    -> Read LCL register's value. Add 12 to it. Since we are trying to access 12th variable in local memory segment
+    -> Access the value you get at the address you compute at the above step.
+    -> Push it to stack.
 
+    Similarly, for argument, this, that, temp & static.
 
+    pop this 6
+    -> Fetch THIS pointer's value. This is the memory address, where the object actually resides.
+    -> Move 6 more places from there (maybe they are tryin to access one specific member of that object)
+    -> Set value in that location to the value popped from stack.
 
+Translator
 
-    
+    At first, i thought i will be a efficient programmer, and instead of showing efficiency in the running time 
+    of the program, i tried to be efficient in the number of lines that a code has.
+    This proved to be a disaster for me.
+    There are many assembly statements common between the various VM statements.
+    I tried to write the common code only once and ended up complicating the code, with a lot of if and else.
 
+    In the end, because of the if & else, the code turned unreadable & the code length was also not short making
+    it very difficult for me to debug the whole thing. In the end, i got only 80 points out of 100 since i was not 
+    able to debug this beast.
 
+    I chose to write the translator again.
+
+    Which is why you have, one VMTranslator_minified.py & one VMTranslator.py
 
 
 ----------------------------------------------------------------------------------------------------------------------- 
-Why not continue to be platform-independent? Why make static depend on the platform? 
 
-Stack - Push/Pop 
-
-RAM
----
-0 SP
-1 LCL 
-2 ARG 
-3 this
-4 that 
-(5 - 12) Temp = 8 memory locations
-13,14,15 = Use internally
-Pointer 0 - This
-Pointer 1 - That
-(16-255) Static
-(256 - ..) Stack
- 
-
-Local, Argument, Static, this, that, pointer, constant, temp
-
-SP, LCL, ARG, this & that are already there in the assembler i wrote in previous project.
-
-VMTranslator_less_code_more_complex.py -> Give file.vm, in same path it will give file.asm
 -----------------------------------------------------------------------------------------------------------------------
 
 
