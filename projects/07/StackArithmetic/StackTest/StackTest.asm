@@ -41,8 +41,6 @@ D=A
 (9D.ones)
 @0
 D=!A
-@9pushD
-0;JMP
 (9pushD)
 @SP
 A=M
@@ -92,8 +90,6 @@ D=A
 (12D.ones)
 @0
 D=!A
-@12pushD
-0;JMP
 (12pushD)
 @SP
 A=M
@@ -143,8 +139,6 @@ D=A
 (15D.ones)
 @0
 D=!A
-@15pushD
-0;JMP
 (15pushD)
 @SP
 A=M
@@ -194,8 +188,6 @@ D=A
 (18D.ones)
 @0
 D=!A
-@18pushD
-0;JMP
 (18pushD)
 @SP
 A=M
@@ -245,8 +237,6 @@ D=A
 (21D.ones)
 @0
 D=!A
-@21pushD
-0;JMP
 (21pushD)
 @SP
 A=M
@@ -296,8 +286,6 @@ D=A
 (24D.ones)
 @0
 D=!A
-@24pushD
-0;JMP
 (24pushD)
 @SP
 A=M
@@ -347,8 +335,6 @@ D=A
 (27D.ones)
 @0
 D=!A
-@27pushD
-0;JMP
 (27pushD)
 @SP
 A=M
@@ -398,8 +384,6 @@ D=A
 (30D.ones)
 @0
 D=!A
-@30pushD
-0;JMP
 (30pushD)
 @SP
 A=M
@@ -449,8 +433,6 @@ D=A
 (33D.ones)
 @0
 D=!A
-@33pushD
-0;JMP
 (33pushD)
 @SP
 A=M

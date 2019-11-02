@@ -76,8 +76,7 @@ def prepareBoolean(index):
     # !0 = 1111111111111111
     print("@0", file=output)
     print("D=!A", file=output)
-    print("@" + index + "pushD", file=output)
-    print("0;JMP", file=output)
+    # No need to jump to pushD, pushD is what that comes next.
     
     # PushD -> Pushed D into Stack
     print("(" + index + "pushD)", file=output)

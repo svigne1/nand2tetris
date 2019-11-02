@@ -41,8 +41,6 @@ D=A
 (2D.ones)
 @0
 D=!A
-@2pushD
-0;JMP
 (2pushD)
 @SP
 A=M
@@ -92,8 +90,6 @@ D=A
 (6D.ones)
 @0
 D=!A
-@6pushD
-0;JMP
 (6pushD)
 @SP
 A=M
