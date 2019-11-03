@@ -62,9 +62,9 @@ def TranslateFile(input_file_path, output_file_path):
             "goto": goto_,
             "if-goto": ifGoto_,
             # Can be found in Functions.py
-            # "call": call_,
-            # "function": function_,
-            # "return": return_,
+            "call": call_,
+            "function": function_,
+            "return": return_,
         }
 
         if(command in commands):
