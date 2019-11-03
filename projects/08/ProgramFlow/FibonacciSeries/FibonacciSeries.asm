@@ -123,7 +123,7 @@ D=M
 A=M
 M=D
 // label MAIN_LOOP_START
-(File.FibonacciSeriesFn.NaN.MAIN_LOOP_START)
+(File.FibonacciSeries.Fn.NaN.MAIN_LOOP_START)
 // push argument 0
 @ARG
 D=M
@@ -139,13 +139,13 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@File.FibonacciSeriesFn.NaN.COMPUTE_ELEMENT
+@File.FibonacciSeries.Fn.NaN.COMPUTE_ELEMENT
 D;JNE
 // goto END_PROGRAM
-@File.FibonacciSeriesFn.NaN.END_PROGRAM
+@File.FibonacciSeries.Fn.NaN.END_PROGRAM
 0;JMP
 // label COMPUTE_ELEMENT
-(File.FibonacciSeriesFn.NaN.COMPUTE_ELEMENT)
+(File.FibonacciSeries.Fn.NaN.COMPUTE_ELEMENT)
 // push that 0
 @THAT
 D=M
@@ -297,7 +297,7 @@ D=M
 A=M
 M=D
 // goto MAIN_LOOP_START
-@File.FibonacciSeriesFn.NaN.MAIN_LOOP_START
+@File.FibonacciSeries.Fn.NaN.MAIN_LOOP_START
 0;JMP
 // label END_PROGRAM
-(File.FibonacciSeriesFn.NaN.END_PROGRAM)
+(File.FibonacciSeries.Fn.NaN.END_PROGRAM)

@@ -55,12 +55,15 @@ def TranslateFile(dir, input_filename, output_file_path):
             # Index is line number in the vm file (which is unique)
             "index": index,
             "command": command,
+            
+            # Multiple RETURN statements are there.. !! Now WHAT TO DO !!?? 
+
             # You can have same label in different files or different functions of same file.
             # So File.Function is unique key for label.
             # If label not declared inside function, use NaN as default function.
             "input_filename": input_filename,
             "currently_parsing_function": "NaN",
-            "input_filename_with_function": lambda arg: "File." + arg["input_filename"] + "Fn." + \
+            "input_filename_with_function": lambda arg: "File." + arg["input_filename"] + ".Fn." + \
                 arg["currently_parsing_function"],  
             # You need this if you have multiple eq, gt, lt commands in a single file
             # Each eq, gt, lt command generates labels that need to be unique, so u need

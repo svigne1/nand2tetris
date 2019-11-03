@@ -6,6 +6,8 @@ def call_(args):
     fn_name = args["remaining_command"][0]
     arguments = args["remaining_command"][1]
 
+    args["currently_parsing_function"] = fn_name
+    unique_key = args["input_filename_with_function"](args)
     # dummy_spacing
     # When there are 0 arguments. Return address & ARG point to the same address
     # As a result, When the function returns, return value becomes the return address.
@@ -15,7 +17,7 @@ def call_(args):
     pushD(args)
 
     # Push return address
-    print("@"+ args["unique_key"] + "." + fn_name +".complete.address", file=args["output"])
+    print("@"+ unique_key + ".finish.address", file=args["output"])
     print("D=A", file=args["output"])
     pushD(args)
 
@@ -64,14 +66,14 @@ def call_(args):
 
     # Creating unique return address to caller after all of the call statements
     # By using line number in vm file + fn_name + .return.address
-    print("("+ args["unique_key"] + "." + fn_name +".complete.address)", file=args["output"])
+    print("("+ unique_key + ".finish.address)", file=args["output"])
 
 def function_(args):
     name = args["remaining_command"][0]
     local_vars = args["remaining_command"][1]
 
     args["currently_parsing_function"] = name
-    
+
     # For Function as well as labels inside function
     unique_key = args["input_filename_with_function"](args)
 

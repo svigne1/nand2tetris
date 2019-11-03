@@ -1,19 +1,13 @@
-@256
-D=A
-@0
-M=D
-@Sys.init
-0;JMP
 // function SimpleFunction.test 2
-(SimpleFunction.test)
+(File.SimpleFunction.Fn.SimpleFunction.test)
 @2
 D=A
 @13
 M=D
-(SimpleFunction.test.initialize_local_vars.begin)
+(File.SimpleFunction.Fn.SimpleFunction.test.initialize_local_vars.begin)
 @13
 D=M
-@SimpleFunction.test.initialize_local_vars.end
+@File.SimpleFunction.Fn.SimpleFunction.test.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -24,9 +18,9 @@ A=M
 M=D
 @SP
 M=M+1
-@SimpleFunction.test.initialize_local_vars.begin
+@File.SimpleFunction.Fn.SimpleFunction.test.initialize_local_vars.begin
 0;JMP
-(SimpleFunction.test.initialize_local_vars.end)
+(File.SimpleFunction.Fn.SimpleFunction.test.initialize_local_vars.end)
 // push local 0
 @LCL
 D=M
