@@ -15,14 +15,29 @@
 
 -> Translator to Assembler
     cd /Users/svigne1/Desktop/nand2tetris/projects/07
-    python3 VM_Translator_complex_and_minified.py test.vm > test.asm
+    python3 VM_Translator_complex_and_minified.py 
     python3 ../06/assembler.py test.asm  > test.hack
 
 -> To translate all files at once
 
-    find . | grep .vm | sed 's/^..//g' | sed -e 's/^/python3 VMTranslator.py /'
+    find . | 
     
     1. find . -> gives all files with full path from current directory
-    2. grep .vm -> selects only vm files
+    2. 
     3. sed 's/^..//g' -> Removes the first two characters (./) from every line in the output
     4. sed -e 's/^/python3 VMTranslator.py /' -> Adds the prefix python3 VMTranslator to every line.
+
+-> Compiling Project7 & Project8
+
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/07/StackArithmetic/SimpleAdd/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/07/StackArithmetic/StackTest/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/07/MemoryAccess/PointerTest/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/07/MemoryAccess/StaticTest/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/07/MemoryAccess/BasicTest/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/ProgramFlow/BasicLoop/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/ProgramFlow/FibonacciSeries/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/FunctionCalls/StaticsTest/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/FunctionCalls/SimpleFunction/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/FunctionCalls/FibonacciElement/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/FunctionCalls/AddFunction/
+    python3 Translator-Code/VMTranslator.py /Users/svigne1/Desktop/nand2tetris/projects/08/FunctionCalls/NestedCall/

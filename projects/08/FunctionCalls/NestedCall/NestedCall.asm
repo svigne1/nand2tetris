@@ -1,13 +1,13 @@
 // function Sys.init 0
-(File.Sys.Fn.Sys.init)
+(Sys.init)
 @0
 D=A
 @13
 M=D
-(File.Sys.Fn.Sys.init.initialize_local_vars.begin)
+(Sys.init.initialize_local_vars.begin)
 @13
 D=M
-@File.Sys.Fn.Sys.init.initialize_local_vars.end
+@Sys.init.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -18,9 +18,9 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.init.initialize_local_vars.begin
+@Sys.init.initialize_local_vars.begin
 0;JMP
-(File.Sys.Fn.Sys.init.initialize_local_vars.end)
+(Sys.init.initialize_local_vars.end)
 // push constant 4000
 @4000
 D=A
@@ -73,7 +73,7 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.main.finish.address
+@Sys.main.12.finish.address
 D=A
 @SP
 A=M
@@ -122,7 +122,7 @@ D=M
 M=D
 @Sys.main
 0;JMP
-(File.Sys.Fn.Sys.main.finish.address)
+(Sys.main.12.finish.address)
 // pop temp 1
 @5
 D=A
@@ -138,20 +138,20 @@ D=M
 A=M
 M=D
 // label LOOP
-(File.Sys.Fn.NaN.LOOP)
+(Sys.LOOP)
 // goto LOOP
-@File.Sys.Fn.NaN.LOOP
+@Sys.LOOP
 0;JMP
 // function Sys.main 5
-(File.Sys.Fn.Sys.main)
+(Sys.main)
 @5
 D=A
 @13
 M=D
-(File.Sys.Fn.Sys.main.initialize_local_vars.begin)
+(Sys.main.initialize_local_vars.begin)
 @13
 D=M
-@File.Sys.Fn.Sys.main.initialize_local_vars.end
+@Sys.main.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -162,9 +162,9 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.main.initialize_local_vars.begin
+@Sys.main.initialize_local_vars.begin
 0;JMP
-(File.Sys.Fn.Sys.main.initialize_local_vars.end)
+(Sys.main.initialize_local_vars.end)
 // push constant 4001
 @4001
 D=A
@@ -303,7 +303,7 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.add12.finish.address
+@Sys.add12.37.finish.address
 D=A
 @SP
 A=M
@@ -352,7 +352,7 @@ D=M
 M=D
 @Sys.add12
 0;JMP
-(File.Sys.Fn.Sys.add12.finish.address)
+(Sys.add12.37.finish.address)
 // pop temp 0
 @5
 D=A
@@ -525,15 +525,15 @@ AM=M-1
 A=M
 0;JMP
 // function Sys.add12 0
-(File.Sys.Fn.Sys.add12)
+(Sys.add12)
 @0
 D=A
 @13
 M=D
-(File.Sys.Fn.Sys.add12.initialize_local_vars.begin)
+(Sys.add12.initialize_local_vars.begin)
 @13
 D=M
-@File.Sys.Fn.Sys.add12.initialize_local_vars.end
+@Sys.add12.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -544,9 +544,9 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.add12.initialize_local_vars.begin
+@Sys.add12.initialize_local_vars.begin
 0;JMP
-(File.Sys.Fn.Sys.add12.initialize_local_vars.end)
+(Sys.add12.initialize_local_vars.end)
 // push constant 4002
 @4002
 D=A

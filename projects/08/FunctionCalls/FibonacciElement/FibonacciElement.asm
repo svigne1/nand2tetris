@@ -1,19 +1,13 @@
-@256
-D=A
-@0
-M=D
-@Sys.init
-0;JMP
 // function Main.fibonacci 0
-(File.Main.Fn.Main.fibonacci)
+(Main.fibonacci)
 @0
 D=A
 @13
 M=D
-(File.Main.Fn.Main.fibonacci.initialize_local_vars.begin)
+(Main.fibonacci.initialize_local_vars.begin)
 @13
 D=M
-@File.Main.Fn.Main.fibonacci.initialize_local_vars.end
+@Main.fibonacci.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -24,9 +18,9 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Main.Fn.Main.fibonacci.initialize_local_vars.begin
+@Main.fibonacci.initialize_local_vars.begin
 0;JMP
-(File.Main.Fn.Main.fibonacci.initialize_local_vars.end)
+(Main.fibonacci.initialize_local_vars.end)
 // push argument 0
 @ARG
 D=M
@@ -60,17 +54,17 @@ AM=M-1
 D=M
 @13
 D=D-M
-@File.Main.Line.13.D.ones
+@Main.Line.13.D.ones
 D;JLT
-(File.Main.Line.13.D.zeroes)
+(Main.Line.13.D.zeroes)
 @0
 D=A
-@File.Main.Line.13.pushD
+@Main.Line.13.pushD
 0;JMP
-(File.Main.Line.13.D.ones)
+(Main.Line.13.D.ones)
 @0
 D=!A
-(File.Main.Line.13.pushD)
+(Main.Line.13.pushD)
 @SP
 A=M
 M=D
@@ -80,13 +74,13 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@File.Main.Fn.NaN.IF_TRUE
+@Main.IF_TRUE
 D;JNE
 // goto IF_FALSE
-@File.Main.Fn.NaN.IF_FALSE
+@Main.IF_FALSE
 0;JMP
 // label IF_TRUE
-(File.Main.Fn.NaN.IF_TRUE)
+(Main.IF_TRUE)
 // push argument 0
 @ARG
 D=M
@@ -137,7 +131,7 @@ AM=M-1
 A=M
 0;JMP
 // label IF_FALSE
-(File.Main.Fn.NaN.IF_FALSE)
+(Main.IF_FALSE)
 // push argument 0
 @ARG
 D=M
@@ -184,7 +178,7 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Main.Fn.Main.fibonacci.finish.address
+@Main.fibonacci.23.finish.address
 D=A
 @SP
 A=M
@@ -233,7 +227,7 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
-(File.Main.Fn.Main.fibonacci.finish.address)
+(Main.fibonacci.23.finish.address)
 // push argument 0
 @ARG
 D=M
@@ -280,7 +274,7 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Main.Fn.Main.fibonacci.finish.address
+@Main.fibonacci.27.finish.address
 D=A
 @SP
 A=M
@@ -329,7 +323,7 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
-(File.Main.Fn.Main.fibonacci.finish.address)
+(Main.fibonacci.27.finish.address)
 // add
 @SP
 AM=M-1
@@ -384,22 +378,16 @@ M=D
 AM=M-1
 A=M
 0;JMP
-@256
-D=A
-@0
-M=D
-@Sys.init
-0;JMP
 // function Sys.init 0
-(File.Sys.Fn.Sys.init)
+(Sys.init)
 @0
 D=A
 @13
 M=D
-(File.Sys.Fn.Sys.init.initialize_local_vars.begin)
+(Sys.init.initialize_local_vars.begin)
 @13
 D=M
-@File.Sys.Fn.Sys.init.initialize_local_vars.end
+@Sys.init.initialize_local_vars.end
 D;JEQ
 @13
 M=M-1
@@ -410,9 +398,9 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Sys.init.initialize_local_vars.begin
+@Sys.init.initialize_local_vars.begin
 0;JMP
-(File.Sys.Fn.Sys.init.initialize_local_vars.end)
+(Sys.init.initialize_local_vars.end)
 // push constant 4
 @4
 D=A
@@ -432,7 +420,7 @@ A=M
 M=D
 @SP
 M=M+1
-@File.Sys.Fn.Main.fibonacci.finish.address
+@Main.fibonacci.12.finish.address
 D=A
 @SP
 A=M
@@ -481,9 +469,9 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
-(File.Sys.Fn.Main.fibonacci.finish.address)
+(Main.fibonacci.12.finish.address)
 // label WHILE
-(File.Sys.Fn.NaN.WHILE)
+(Sys.WHILE)
 // goto WHILE
-@File.Sys.Fn.NaN.WHILE
+@Sys.WHILE
 0;JMP
