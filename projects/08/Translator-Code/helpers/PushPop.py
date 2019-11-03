@@ -66,7 +66,7 @@ def constant_(args):
 # Fetch address in A
 def static_(args):
     # @Filename.offset
-    print("@" + args["filename"] + "." + args["offset"], file=args["output"])
+    print("@" + args["input_filename"] + "." + args["offset"], file=args["output"])
 
 
 # Every syntax word has a function associated with it which will do the work.
