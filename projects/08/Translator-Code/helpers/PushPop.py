@@ -84,7 +84,6 @@ memory_segments = {
 
 
 # Args contain the next keyword & offset
-# index is used to name the labels uniquely by subsequent functions.
 # Push reads the value from the memory location saved in A register & pushes the value to stack
 def push_(args):
 
@@ -92,7 +91,7 @@ def push_(args):
     args["offset"] = args["remaining_command"][1]
 
     # Same as command in loop
-    memory_segment_ = memory_segments.get(memory_segment, lambda: print("ERROR", file=output))
+    memory_segment_ = memory_segments.get(memory_segment, lambda: print("ERROR", file=args["output"]))
     memory_segment_(args)
     
     # If Push, put the value(M) of address(A) in D
@@ -102,7 +101,6 @@ def push_(args):
     pushD(args)
 
 # Args contain the next keyword & offset
-# index is used to name the labels uniquely by subsequent functions.
 # Pop modifies the value stored in the memory location stored in A register.
 # A register is a pointer here. And the memory it points, is changed using the stack
 def pop_(args):

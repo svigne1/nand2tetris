@@ -74,13 +74,13 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@IF_TRUE
+@line.14.IF_TRUE
 D;JNE
 // goto IF_FALSE
-@IF_FALSE
+@line.15.IF_FALSE
 0;JMP
 // label IF_TRUE
-(IF_TRUE)
+(line.16.IF_TRUE)
 // push argument 0
 @ARG
 D=M
@@ -99,7 +99,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A+1
+D=A
 @SP
 M=D
 @LCL
@@ -131,7 +131,7 @@ AM=M-1
 A=M
 0;JMP
 // label IF_FALSE
-(IF_FALSE)
+(line.19.IF_FALSE)
 // push argument 0
 @ARG
 D=M
@@ -171,7 +171,13 @@ M=D
 @SP
 M=M+1
 // call Main.fibonacci 1
-(line.23.Main.fibonacci.return.address)
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @line.23.Main.fibonacci.return.address
 D=A
 @SP
@@ -209,7 +215,7 @@ M=D
 M=M+1
 @SP
 D=M
-@5
+@6
 D=D-A
 @1
 D=D-A
@@ -221,6 +227,7 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
+(line.23.Main.fibonacci.return.address)
 // push argument 0
 @ARG
 D=M
@@ -260,7 +267,13 @@ M=D
 @SP
 M=M+1
 // call Main.fibonacci 1
-(line.27.Main.fibonacci.return.address)
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @line.27.Main.fibonacci.return.address
 D=A
 @SP
@@ -298,7 +311,7 @@ M=D
 M=M+1
 @SP
 D=M
-@5
+@6
 D=D-A
 @1
 D=D-A
@@ -310,6 +323,7 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
+(line.27.Main.fibonacci.return.address)
 // add
 @SP
 AM=M-1
@@ -333,7 +347,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A+1
+D=A
 @SP
 M=D
 @LCL
@@ -399,7 +413,13 @@ M=D
 @SP
 M=M+1
 // call Main.fibonacci 1
-(line.12.Main.fibonacci.return.address)
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @line.12.Main.fibonacci.return.address
 D=A
 @SP
@@ -437,7 +457,7 @@ M=D
 M=M+1
 @SP
 D=M
-@5
+@6
 D=D-A
 @1
 D=D-A
@@ -449,8 +469,9 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
+(line.12.Main.fibonacci.return.address)
 // label WHILE
-(WHILE)
+(line.13.WHILE)
 // goto WHILE
-@WHILE
+@line.14.WHILE
 0;JMP

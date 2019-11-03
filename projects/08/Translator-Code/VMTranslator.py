@@ -30,6 +30,6 @@ if os.path.exists(output_file):
 
 for file in os.listdir(vm_dir):
     if file.endswith(".vm"):
-        TranslateFile(os.path.join(vm_dir, file), output_file)
+        TranslateFile(vm_dir, file, output_file)
 
 

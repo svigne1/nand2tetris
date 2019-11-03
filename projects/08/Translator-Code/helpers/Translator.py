@@ -4,16 +4,32 @@ from helpers.Arithmetic import *
 from helpers.Branching import *
 from helpers.Functions import *
 
-def TranslateFile(input_file_path, output_file_path):
+import os
+
+def TranslateFile(dir, input_filename, output_file_path):
+
+    input_file_path = os.path.join(dir, input_filename)
 
     # Read vm file
     f = open(input_file_path, "r")
 
-    input_filename = input_file_path.split(".vm")[1]
+    input_filename = input_filename.split(".vm")[0]
 
     # print(output_file)
     output = open(output_file_path, "a")
 
+    """ 
+        Bootstrap code
+            - Set SP to 256
+            - Call Sys.init
+    """
+
+    # print("@256", file=output)
+    # print("D=A", file=output)
+    # print("@0", file=output)
+    # print("M=D", file=output)
+    # print("@Sys.init", file=output)
+    # print("0;JMP", file=output)
 
     for index, line in enumerate(f):
 
@@ -34,12 +50,22 @@ def TranslateFile(input_file_path, output_file_path):
         # Let's try to parse this thing.
         split_by_spaces = no_spaces.split(" ")
         command = split_by_spaces[0]
-
+        
         args = {
             # Index is line number in the vm file (which is unique)
             "index": index,
             "command": command,
+            # You can have same label in different files or different functions of same file.
+            # So File.Function is unique key for label.
+            # If label not declared inside function, use NaN as default function.
             "input_filename": input_filename,
+            "currently_parsing_function": "NaN",
+            "input_filename_with_function": lambda arg: "File." + arg["input_filename"] + "Fn." + \
+                arg["currently_parsing_function"],  
+            # You need this if you have multiple eq, gt, lt commands in a single file
+            # Each eq, gt, lt command generates labels that need to be unique, so u need
+            # the line number. And file numbers are duplicate across filenames.
+            "input_filename_with_line_number": "File." + input_filename + ".Line." + index,
             "output": output,
             "remaining_command": split_by_spaces[1:3]
         }

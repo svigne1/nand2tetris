@@ -1,5 +1,5 @@
-// push constant 100
-@100
+// push constant 50
+@50
 D=A
 @13
 M=D
@@ -9,7 +9,7 @@ A=M
 M=D
 @SP
 M=M+1
-// call Sys.init 0
+// call Sys.init 1
 @0
 D=A
 @SP
@@ -17,7 +17,7 @@ A=M
 M=D
 @SP
 M=M+1
-@line.11.Sys.init.return.address
+@line.10.Sys.init.return.address
 D=A
 @SP
 A=M
@@ -56,7 +56,7 @@ M=M+1
 D=M
 @6
 D=D-A
-@0
+@1
 D=D-A
 @ARG
 M=D
@@ -66,7 +66,7 @@ D=M
 M=D
 @Sys.init
 0;JMP
-(line.11.Sys.init.return.address)
+(line.10.Sys.init.return.address)
 // label infinite
 (infinite)
 // goto infinite
@@ -95,11 +95,11 @@ M=M+1
 @Sys.init.initialize_local_vars.begin
 0;JMP
 (Sys.init.initialize_local_vars.end)
-// push constant 20
-@20
-D=A
-@13
-M=D
+// push argument 0
+@ARG
+D=M
+@0
+A=D+A
 D=M
 @SP
 A=M

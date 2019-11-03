@@ -15,7 +15,7 @@ def call_(args):
     pushD(args)
 
     # Push return address
-    print("@line."+ args["index"] + "." + fn_name +".return.address", file=args["output"])
+    print("@"+ args["unique_key"] + "." + fn_name +".complete.address", file=args["output"])
     print("D=A", file=args["output"])
     pushD(args)
 
@@ -64,13 +64,18 @@ def call_(args):
 
     # Creating unique return address to caller after all of the call statements
     # By using line number in vm file + fn_name + .return.address
-    print("(line."+ args["index"] + "." + fn_name +".return.address)", file=args["output"])
+    print("("+ args["unique_key"] + "." + fn_name +".complete.address)", file=args["output"])
 
 def function_(args):
     name = args["remaining_command"][0]
     local_vars = args["remaining_command"][1]
 
-    print("("+ name +")", file=args["output"])
+    args["currently_parsing_function"] = name
+    
+    # For Function as well as labels inside function
+    unique_key = args["input_filename_with_function"](args)
+
+    print("("+ unique_key +")", file=args["output"])
 
     # Save counter in 13
     print("@"+local_vars, file=args["output"])
@@ -79,12 +84,12 @@ def function_(args):
     print("M=D", file=args["output"])
 
     # Start Loop to initialize local vars
-    print("("+ name +".initialize_local_vars.begin)", file=args["output"])
+    print("("+ unique_key +".initialize_local_vars.begin)", file=args["output"])
     
     # Check counter to exit loop
     print("@13", file=args["output"])
     print("D=M", file=args["output"])
-    print("@"+ name +".initialize_local_vars.end", file=args["output"])
+    print("@"+ unique_key +".initialize_local_vars.end", file=args["output"])
     print("D;JEQ", file=args["output"])
 
     # If not, reduce counter, set D to 0, pushD & Repeat
@@ -93,14 +98,17 @@ def function_(args):
     print("@0", file=args["output"])
     print("D=A", file=args["output"])
     pushD(args)
-    print("@"+ name +".initialize_local_vars.begin", file=args["output"])
+    print("@"+ unique_key +".initialize_local_vars.begin", file=args["output"])
     print("0;JMP", file=args["output"])
     
     # End Loop
-    print("("+ name +".initialize_local_vars.end)", file=args["output"])
+    print("("+ unique_key +".initialize_local_vars.end)", file=args["output"])
 
 
 def return_(args):
+
+    args["currently_parsing_function"] = "NaN"
+
     # Fetch return value of callee & set it for caller.
     print("@SP", file=args["output"])
     print("A=M-1", file=args["output"])
