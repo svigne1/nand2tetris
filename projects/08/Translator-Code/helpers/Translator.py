@@ -61,14 +61,15 @@ def TranslateFile(dir, input_filename, output_file_path):
             # You can have same label in different files or different functions of same file.
             # So File.Function is unique key for label.
             # If label not declared inside function, use NaN as default function.
+
+            # Needed by static
             "input_filename": input_filename,
-            "currently_parsing_function": "NaN",
-            "input_filename_with_function": lambda arg: "File." + arg["input_filename"] + ".Fn." + \
-                arg["currently_parsing_function"],  
+            # Function name by default comes with the input filename.
+            "file_name_fn_name": input_filename,
             # You need this if you have multiple eq, gt, lt commands in a single file
             # Each eq, gt, lt command generates labels that need to be unique, so u need
             # the line number. And file numbers are duplicate across filenames.
-            "input_filename_with_line_number": "File." + input_filename + ".Line." + index,
+            "input_filename_with_line_number": input_filename + ".Line." + index,
             "output": output,
             "remaining_command": split_by_spaces[1:3]
         }

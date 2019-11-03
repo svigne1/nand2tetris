@@ -7,8 +7,8 @@
 
 // check if return address is being pushed or not
 
-push constant 50 
-call Sys.init 1
+push constant 111 
+call Sys.init 0
 
 // infinite loop
 
@@ -16,7 +16,7 @@ label infinite
 goto infinite
 
 function Sys.init 0
-push argument 0
+push constant 20
 push constant 30
 add
 return

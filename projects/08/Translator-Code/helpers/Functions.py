@@ -3,11 +3,13 @@ from .Converters import *
 # print(,file=args["output"], file=args["output"])
 
 def call_(args):
-    fn_name = args["remaining_command"][0]
+    file_name_fn_name = args["remaining_command"][0]
     arguments = args["remaining_command"][1]
 
-    args["currently_parsing_function"] = fn_name
-    unique_key = args["input_filename_with_function"](args)
+    # Function can be called multiple times in a file.
+    # We need to create labels uniquely in the same file.
+    unique_key = file_name_fn_name + "." + args["index"]
+
     # dummy_spacing
     # When there are 0 arguments. Return address & ARG point to the same address
     # As a result, When the function returns, return value becomes the return address.
@@ -61,7 +63,7 @@ def call_(args):
     print("M=D", file=args["output"])
     
     # Jump to callee
-    print("@"+fn_name, file=args["output"])
+    print("@" + file_name_fn_name, file=args["output"])
     print("0;JMP", file=args["output"])
 
     # Creating unique return address to caller after all of the call statements
@@ -69,13 +71,19 @@ def call_(args):
     print("("+ unique_key + ".finish.address)", file=args["output"])
 
 def function_(args):
-    name = args["remaining_command"][0]
+    file_name_fn_name = args["remaining_command"][0]
     local_vars = args["remaining_command"][1]
 
-    args["currently_parsing_function"] = name
+    # The labels in this function will continue to use this.
+    # There is no way to tell, if the function has ended. 
+    # Any labels following this function also will continue to use the same name.
+    # But that's okay. These functionless labels, just need filename as unique key
+    # Filename + Functioname is just added advantage
+    # What if there is a conflict between, label outside & same label inside a function?
+    args["file_name_fn_name"] = file_name_fn_name
 
     # For Function as well as labels inside function
-    unique_key = args["input_filename_with_function"](args)
+    unique_key = file_name_fn_name
 
     print("("+ unique_key +")", file=args["output"])
 
@@ -108,8 +116,6 @@ def function_(args):
 
 
 def return_(args):
-
-    args["currently_parsing_function"] = "NaN"
 
     # Fetch return value of callee & set it for caller.
     print("@SP", file=args["output"])
