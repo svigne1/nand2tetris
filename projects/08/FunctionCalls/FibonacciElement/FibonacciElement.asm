@@ -1,3 +1,9 @@
+@261
+D=A
+@0
+M=D
+@Sys.init
+0;JMP
 // function Main.fibonacci 0
 (Main.fibonacci)
 @0
@@ -54,17 +60,17 @@ AM=M-1
 D=M
 @13
 D=D-M
-@Main.Line.13.D.ones
+@Main.fibonacci.13.D.ones
 D;JLT
-(Main.Line.13.D.zeroes)
+(Main.fibonacci.13.D.zeroes)
 @0
 D=A
-@Main.Line.13.pushD
+@Main.fibonacci.13.pushD
 0;JMP
-(Main.Line.13.D.ones)
+(Main.fibonacci.13.D.ones)
 @0
 D=!A
-(Main.Line.13.pushD)
+(Main.fibonacci.13.pushD)
 @SP
 A=M
 M=D
@@ -74,13 +80,13 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@Main.IF_TRUE
+@Main.fibonacci.IF_TRUE
 D;JNE
 // goto IF_FALSE
-@Main.IF_FALSE
+@Main.fibonacci.IF_FALSE
 0;JMP
 // label IF_TRUE
-(Main.IF_TRUE)
+(Main.fibonacci.IF_TRUE)
 // push argument 0
 @ARG
 D=M
@@ -99,7 +105,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -131,7 +137,7 @@ AM=M-1
 A=M
 0;JMP
 // label IF_FALSE
-(Main.IF_FALSE)
+(Main.fibonacci.IF_FALSE)
 // push argument 0
 @ARG
 D=M
@@ -347,7 +353,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -377,6 +383,12 @@ M=D
 @13
 AM=M-1
 A=M
+0;JMP
+@261
+D=A
+@0
+M=D
+@Sys.init
 0;JMP
 // function Sys.init 0
 (Sys.init)
@@ -420,7 +432,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Main.fibonacci.12.finish.address
+@Sys.init.12.finish.address
 D=A
 @SP
 A=M
@@ -469,9 +481,9 @@ D=M
 M=D
 @Main.fibonacci
 0;JMP
-(Main.fibonacci.12.finish.address)
+(Sys.init.12.finish.address)
 // label WHILE
-(Sys.WHILE)
+(Sys.init.WHILE)
 // goto WHILE
-@Sys.WHILE
+@Sys.init.WHILE
 0;JMP

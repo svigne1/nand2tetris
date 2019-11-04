@@ -1,3 +1,9 @@
+@261
+D=A
+@0
+M=D
+@Sys.init
+0;JMP
 // function Class1.set 0
 (Class1.set)
 @0
@@ -83,7 +89,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -176,7 +182,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -206,6 +212,12 @@ M=D
 @13
 AM=M-1
 A=M
+0;JMP
+@261
+D=A
+@0
+M=D
+@Sys.init
 0;JMP
 // function Sys.init 0
 (Sys.init)
@@ -260,7 +272,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Class1.set.10.finish.address
+@Sys.init.10.finish.address
 D=A
 @SP
 A=M
@@ -309,7 +321,7 @@ D=M
 M=D
 @Class1.set
 0;JMP
-(Class1.set.10.finish.address)
+(Sys.init.10.finish.address)
 // pop temp 0
 @5
 D=A
@@ -354,7 +366,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Class2.set.14.finish.address
+@Sys.init.14.finish.address
 D=A
 @SP
 A=M
@@ -403,7 +415,7 @@ D=M
 M=D
 @Class2.set
 0;JMP
-(Class2.set.14.finish.address)
+(Sys.init.14.finish.address)
 // pop temp 0
 @5
 D=A
@@ -426,7 +438,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Class1.get.16.finish.address
+@Sys.init.16.finish.address
 D=A
 @SP
 A=M
@@ -475,7 +487,7 @@ D=M
 M=D
 @Class1.get
 0;JMP
-(Class1.get.16.finish.address)
+(Sys.init.16.finish.address)
 // call Class2.get 0
 @0
 D=A
@@ -484,7 +496,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Class2.get.17.finish.address
+@Sys.init.17.finish.address
 D=A
 @SP
 A=M
@@ -533,11 +545,17 @@ D=M
 M=D
 @Class2.get
 0;JMP
-(Class2.get.17.finish.address)
+(Sys.init.17.finish.address)
 // label WHILE
-(Sys.WHILE)
+(Sys.init.WHILE)
 // goto WHILE
-@Sys.WHILE
+@Sys.init.WHILE
+0;JMP
+@261
+D=A
+@0
+M=D
+@Sys.init
 0;JMP
 // function Class2.set 0
 (Class2.set)
@@ -624,7 +642,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -717,7 +735,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL

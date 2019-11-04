@@ -5,7 +5,7 @@ from .Converters import *
 def label_(args):
     args["label"] = args["remaining_command"][0]
     # Set up the label
-    print("(" + args["file_name_fn_name"] + "." + args["label"] +  ")",file=args["output"])
+    print("(" + args["fn_name"] + "." + args["label"] +  ")",file=args["output"])
 
 
 def ifGoto_(args):
@@ -18,12 +18,12 @@ def ifGoto_(args):
     # print("@0",file=args["output"])
     # print("A=!A",file=args["output"])
     # print("D=D-A;",file=args["output"])
-    print("@" + args["file_name_fn_name"] + "." + args["label"],file=args["output"])
+    print("@" + args["fn_name"] + "." + args["label"],file=args["output"])
     print("D;JNE",file=args["output"])
 
 
 def goto_(args):
     args["label"] = args["remaining_command"][0]
     # Unconditional jump
-    print("@" + args["file_name_fn_name"] + "." + args["label"],file=args["output"])
+    print("@" + args["fn_name"] + "." + args["label"],file=args["output"])
     print("0;JMP",file=args["output"])

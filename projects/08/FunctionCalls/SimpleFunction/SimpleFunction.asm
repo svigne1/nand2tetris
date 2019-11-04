@@ -1,3 +1,9 @@
+@261
+D=A
+@0
+M=D
+@Sys.init
+0;JMP
 // function SimpleFunction.test 2
 (SimpleFunction.test)
 @2
@@ -130,7 +136,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL

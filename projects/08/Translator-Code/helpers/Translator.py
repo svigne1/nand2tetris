@@ -24,12 +24,39 @@ def TranslateFile(dir, input_filename, output_file_path):
             - Call Sys.init
     """
 
-    # print("@256", file=output)
+    print("@261", file=output)
+    print("D=A", file=output)
+    print("@0", file=output)
+    print("M=D", file=output)
+    print("@Sys.init", file=output)
+    print("0;JMP", file=output)
+
+    """ 
+        Test code
+            - Set SP to 16
+            - Set LCL, ARG, THIS, THAT to 1,2,3,4
+            - Call Sys.init
+    """
+
+    # print("@16", file=output)
     # print("D=A", file=output)
     # print("@0", file=output)
     # print("M=D", file=output)
-    # print("@Sys.init", file=output)
-    # print("0;JMP", file=output)
+
+    # print("@1", file=output)
+    # print("M=A", file=output)
+
+    # print("@2", file=output)
+    # print("M=A", file=output)
+
+    # print("@3", file=output)
+    # print("M=A", file=output)
+
+    # print("@4", file=output)
+    # print("M=A", file=output)
+
+    # By default, we have seen no function. So initial value is NaN
+    global_fn_name = "NaN"
 
     for index, line in enumerate(f):
 
@@ -52,24 +79,16 @@ def TranslateFile(dir, input_filename, output_file_path):
         command = split_by_spaces[0]
         
         args = {
-            # Index is line number in the vm file (which is unique)
+            # Index is line number in the vm file (which is unique) for one file. 
             "index": index,
             "command": command,
-            
-            # Multiple RETURN statements are there.. !! Now WHAT TO DO !!?? 
-
-            # You can have same label in different files or different functions of same file.
-            # So File.Function is unique key for label.
-            # If label not declared inside function, use NaN as default function.
 
             # Needed by static
-            "input_filename": input_filename,
-            # Function name by default comes with the input filename.
-            "file_name_fn_name": input_filename,
-            # You need this if you have multiple eq, gt, lt commands in a single file
-            # Each eq, gt, lt command generates labels that need to be unique, so u need
-            # the line number. And file numbers are duplicate across filenames.
-            "input_filename_with_line_number": input_filename + ".Line." + index,
+            "filename": input_filename,
+            
+            # Function name by default comes as filename + fn_name from the compiler
+            "fn_name": global_fn_name,
+
             "output": output,
             "remaining_command": split_by_spaces[1:3]
         }
@@ -102,5 +121,8 @@ def TranslateFile(dir, input_filename, output_file_path):
             command_(args)
         else:
             print("ERROR, command not found", file=output)
+        
+        # We need to remember, what is the last read function & keep using it until we see a new function
+        global_fn_name = args["fn_name"]
     
     output.close()

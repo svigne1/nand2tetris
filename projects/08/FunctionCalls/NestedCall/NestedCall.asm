@@ -1,3 +1,9 @@
+@261
+D=A
+@0
+M=D
+@Sys.init
+0;JMP
 // function Sys.init 0
 (Sys.init)
 @0
@@ -73,7 +79,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Sys.main.12.finish.address
+@Sys.init.12.finish.address
 D=A
 @SP
 A=M
@@ -122,7 +128,7 @@ D=M
 M=D
 @Sys.main
 0;JMP
-(Sys.main.12.finish.address)
+(Sys.init.12.finish.address)
 // pop temp 1
 @5
 D=A
@@ -138,9 +144,9 @@ D=M
 A=M
 M=D
 // label LOOP
-(Sys.LOOP)
+(Sys.init.LOOP)
 // goto LOOP
-@Sys.LOOP
+@Sys.init.LOOP
 0;JMP
 // function Sys.main 5
 (Sys.main)
@@ -303,7 +309,7 @@ A=M
 M=D
 @SP
 M=M+1
-@Sys.add12.37.finish.address
+@Sys.main.37.finish.address
 D=A
 @SP
 A=M
@@ -352,7 +358,7 @@ D=M
 M=D
 @Sys.add12
 0;JMP
-(Sys.add12.37.finish.address)
+(Sys.main.37.finish.address)
 // pop temp 0
 @5
 D=A
@@ -493,7 +499,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL
@@ -636,7 +642,7 @@ D=M
 @ARG
 A=M
 M=D
-D=A
+D=A+1
 @SP
 M=D
 @LCL

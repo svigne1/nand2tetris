@@ -28,3 +28,8 @@ def popToMD(args):
     # Now, x in D, & y in M
     print("@13", file=args["output"])
 
+
+# Filename + Function_name + line_number
+# Line Number is not unique across files. Function name is extra.
+def fn_name_with_line_number(args):
+    return args["fn_name"] + "." + args["index"]

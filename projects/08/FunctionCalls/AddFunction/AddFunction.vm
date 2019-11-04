@@ -8,15 +8,27 @@
 // check if return address is being pushed or not
 
 push constant 111 
-call Sys.init 0
+
+call Sys.nothing 0
+
+push constant 222
+
+push constant 90
+push constant 30
+call Sys.argument 2
 
 // infinite loop
-
 label infinite
 goto infinite
 
-function Sys.init 0
+function Sys.nothing 0
 push constant 20
 push constant 30
+add
+return
+
+function Sys.argument 0
+push argument 0
+push argument 1
 add
 return

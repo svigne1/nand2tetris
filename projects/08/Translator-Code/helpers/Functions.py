@@ -3,12 +3,12 @@ from .Converters import *
 # print(,file=args["output"], file=args["output"])
 
 def call_(args):
-    file_name_fn_name = args["remaining_command"][0]
+    fn_name = args["remaining_command"][0]
     arguments = args["remaining_command"][1]
 
     # Function can be called multiple times in a file.
     # We need to create labels uniquely in the same file.
-    unique_key = file_name_fn_name + "." + args["index"]
+    unique_key = fn_name_with_line_number(args)
 
     # dummy_spacing
     # When there are 0 arguments. Return address & ARG point to the same address
@@ -62,8 +62,8 @@ def call_(args):
     print("@LCL", file=args["output"])
     print("M=D", file=args["output"])
     
-    # Jump to callee
-    print("@" + file_name_fn_name, file=args["output"])
+    # Jump to callee function
+    print("@" + fn_name, file=args["output"])
     print("0;JMP", file=args["output"])
 
     # Creating unique return address to caller after all of the call statements
@@ -71,7 +71,7 @@ def call_(args):
     print("("+ unique_key + ".finish.address)", file=args["output"])
 
 def function_(args):
-    file_name_fn_name = args["remaining_command"][0]
+    fn_name = args["remaining_command"][0]
     local_vars = args["remaining_command"][1]
 
     # The labels in this function will continue to use this.
@@ -80,10 +80,10 @@ def function_(args):
     # But that's okay. These functionless labels, just need filename as unique key
     # Filename + Functioname is just added advantage
     # What if there is a conflict between, label outside & same label inside a function?
-    args["file_name_fn_name"] = file_name_fn_name
+    args["fn_name"] = fn_name
 
     # For Function as well as labels inside function
-    unique_key = file_name_fn_name
+    unique_key = fn_name
 
     print("("+ unique_key +")", file=args["output"])
 
@@ -125,8 +125,9 @@ def return_(args):
     print("A=M", file=args["output"])
     print("M=D", file=args["output"])
 
-    # Set SP to ARG
-    print("D=A", file=args["output"])
+    # Set SP to ARG + 1 (We need to be 1 step the return value)
+    # A is already set to the value of @ARG from previous steps
+    print("D=A+1", file=args["output"])
     print("@SP", file=args["output"])
     print("M=D", file=args["output"])
 
