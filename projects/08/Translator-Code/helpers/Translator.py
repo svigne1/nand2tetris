@@ -20,16 +20,16 @@ def TranslateFile(dir, input_filename, output_file_path):
 
     """ 
         Bootstrap code
-            - Set SP to 256
+            - Set SP to 261 (Strangely, thats what functionCalls want. Ideally, it should be 256)
             - Call Sys.init
     """
 
-    print("@261", file=output)
-    print("D=A", file=output)
-    print("@0", file=output)
-    print("M=D", file=output)
-    print("@Sys.init", file=output)
-    print("0;JMP", file=output)
+    # print("@261", file=output)
+    # print("D=A", file=output)
+    # print("@0", file=output)
+    # print("M=D", file=output)
+    # print("@Sys.init", file=output)
+    # print("0;JMP", file=output)
 
     """ 
         Test code
