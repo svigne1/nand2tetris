@@ -20,10 +20,10 @@
 
 -> To translate all files at once
 
-    find . | 
+    find ./07 | grep .vm | sed 's/^..//g' | sed -e 's/^/python3 VMTranslator\/VMTranslator.py /'
     
     1. find . -> gives all files with full path from current directory
-    2. 
+    2. grep .vm
     3. sed 's/^..//g' -> Removes the first two characters (./) from every line in the output
     4. sed -e 's/^/python3 VMTranslator.py /' -> Adds the prefix python3 VMTranslator to every line.
 

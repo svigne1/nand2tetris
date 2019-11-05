@@ -6,7 +6,7 @@ from helpers.Functions import *
 
 import os
 
-def TranslateFile(dir, input_filename, output_file_path):
+def TranslateFile(dir, input_filename, output):
 
     input_file_path = os.path.join(dir, input_filename)
 
@@ -15,24 +15,8 @@ def TranslateFile(dir, input_filename, output_file_path):
 
     input_filename = input_filename.split(".vm")[0]
 
-    # print(output_file)
-    output = open(output_file_path, "a")
-
     """ 
-        Bootstrap code
-            - Set SP to 261 (Strangely, thats what functionCalls want. Ideally, it should be 256)
-            - Call Sys.init
-    """
-
-    # print("@261", file=output)
-    # print("D=A", file=output)
-    # print("@0", file=output)
-    # print("M=D", file=output)
-    # print("@Sys.init", file=output)
-    # print("0;JMP", file=output)
-
-    """ 
-        Test code
+        Test code. For testing my AddFunction tests under FunctionCalls.
             - Set SP to 16
             - Set LCL, ARG, THIS, THAT to 1,2,3,4
             - Call Sys.init
@@ -125,4 +109,4 @@ def TranslateFile(dir, input_filename, output_file_path):
         # We need to remember, what is the last read function & keep using it until we see a new function
         global_fn_name = args["fn_name"]
     
-    output.close()
+

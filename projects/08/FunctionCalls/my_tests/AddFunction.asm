@@ -1,15 +1,3 @@
-@16
-D=A
-@0
-M=D
-@1
-M=A
-@2
-M=A
-@3
-M=A
-@4
-M=A
 // push constant 111
 @111
 D=A

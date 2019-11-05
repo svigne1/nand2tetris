@@ -384,12 +384,6 @@ M=D
 AM=M-1
 A=M
 0;JMP
-@261
-D=A
-@0
-M=D
-@Sys.init
-0;JMP
 // function Sys.init 0
 (Sys.init)
 @0
