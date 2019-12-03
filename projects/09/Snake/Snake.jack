@@ -1,0 +1,66 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/snake/snake.jack
+
+/** Implements a graphical snake. */
+class Snake {
+
+   field SnakeCell head, tail; 
+
+   /** Return a snake of length 3 at the location specified */
+   constructor Snake new(int x, int y) {
+
+      var SnakeCell body;
+
+      let head = SnakeCell.new(x+2, y, null);
+      let body = SnakeCell.new(x+1, y, head);
+      let tail = SnakeCell.new(x, y, body);
+
+      // Since all cells are off by default, this will draw the snake.
+      do toggle();
+
+      return this;
+   }
+
+   /** Disposes this snake. */
+   method void dispose() {
+      do tail.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   // We animate the snake movement by removing the tail
+   // & adding it to the head of the snake in the correct direction.
+   // This way, every frame, we only re-draw 2 pixels and not the whole snake.
+   method void move(int direction){
+
+      var SnakeCell new_head;
+      let new_head = tail;
+
+      // Tail shrinks
+      do tail.toggle();
+      let tail = tail.getNext();
+      do new_head.setNext(null);
+
+      // Head grows & moves in right direction
+      do head.setNext(new_head);
+      let head = new_head;
+      do head.moveNextPosition(direction);
+      do head.toggle();
+
+      do Sys.wait(7);
+      return;
+   }
+
+   /** Draws the snake on the screen. */
+   method void toggle() { 
+      var SnakeCell current;    
+      let current = tail;  
+      while (~(current = null)) {
+         do current.toggle();
+         let current = current.getNext();
+      }
+      return;
+   }
+}

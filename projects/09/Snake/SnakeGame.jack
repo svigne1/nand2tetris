@@ -1,0 +1,64 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/SquareGame.jack
+
+/**
+ * Implements the Square Dance game.
+ * This simple game allows the user to move a black square around
+ * the screen, and change the square's size during the movement.
+ * When the game starts, a square of 30 by 30 pixels is shown at the
+ * top-left corner of the screen. The user controls the square as follows.
+ * The 4 arrow kbds are used to move the square up, down, left, and right.
+ * The 'z' and 'x' kbds are used, respectively, to decrement and increment
+ * the square's size. The 'q' kbd is used to quit the game.
+ */
+
+class SnakeGame {
+   
+   field Snake snake; 
+   field SnakeCell food; 
+   field int direction; 
+
+   /** Constructs a new SnakeGame. */
+   constructor SnakeGame new() {
+      // Creates a length 3 snake by default
+      let snake = Snake.new(30, 30);
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do snake.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Runs the game: handles the user's inputs and moves the snake accordingly */
+   method void run() {
+      
+      var char kbd; // keyboard value
+      
+      var boolean exit;
+      let exit = false;
+
+      let direction = 4; 
+      
+      while (~exit) {
+
+         let kbd = Keyboard.keyPressed();   
+         
+         if (kbd = 81)  { let exit = true; }     // q key
+         if (kbd = 133) { let direction = 1; }   // up arrow
+         if (kbd = 131) { let direction = 2; }   // down arrow
+         if (kbd = 130) { let direction = 3; }   // left arrow
+         if (kbd = 132) { let direction = 4; }   // right arrow
+         
+         do snake.move(direction);
+     } 
+     return;
+   }
+}
+
+
+

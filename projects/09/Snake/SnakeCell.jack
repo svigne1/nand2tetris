@@ -1,0 +1,83 @@
+
+/** It is used both as a body part of the snake as well as it's food */
+class SnakeCell {
+    field int x, y;
+    field boolean state; 
+    field SnakeCell next;         
+
+    /* Creates a SnakeCell. */
+    constructor SnakeCell new(int _x, int _y, SnakeCell _next) {
+        let x = _x;
+        let y = _y;
+        let next = _next;
+        let state = false;
+        return this;
+    }
+
+    /** Draws the snake on the screen. */
+    method void draw() {
+        // White Border
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x, y, x + 16, y + 16);
+
+        do Screen.setColor(state);
+        do Screen.drawRectangle(x, y, x + 15, y + 15);
+
+        return;
+    }
+    
+    /** Reverses the state from hidden to visible & vice-versa */
+    method void toggle() {
+        let state = ~state;
+        do draw();
+        return;
+    }
+
+    method void moveNextPosition(int direction){
+        // Up
+        if (direction = 1) {
+            let y = y + 1;
+        }
+        // Down
+        if (direction = 2) {
+            let y = y - 1;
+        }
+        // Left
+        if (direction = 3) {
+            let x = x - 1;
+        }
+        // Right
+        if (direction = 4) {
+            let x = x + 1;
+        }
+        return;
+    }
+    
+    /** Disposes the whole snake starting from tail */
+    method void dispose() {
+        if (~(next = null)) {
+            do next.dispose();
+        }
+        // Uses an OS routine to recycle this object.
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Get & Set */
+    method int getX() { return x; }
+    method int getY() { return y; }
+    method int getNext() { return next; }
+    method void setX(int v) { 
+        let x=v;
+        return;
+    }
+    method void setY(int v) { 
+        let y=v;
+        return;
+    }
+    method void setNext(SnakeCell v) { 
+        let next = v;
+        return;  
+    }
+
+}
