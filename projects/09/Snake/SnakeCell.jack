@@ -3,25 +3,28 @@
 class SnakeCell {
     field int x, y;
     field boolean state; 
-    field SnakeCell next;         
+    field SnakeCell next;
+    field int size, spacing;             
 
     /* Creates a SnakeCell. */
-    constructor SnakeCell new(int _x, int _y, SnakeCell _next) {
+    constructor SnakeCell new(int _x, int _y, SnakeCell _next, int _size, int _spacing) {
         let x = _x;
         let y = _y;
         let next = _next;
+        let size = _size;
+        let spacing = _spacing;
         let state = false;
         return this;
     }
 
     /** Draws the snake on the screen. */
     method void draw() {
-        // White Border
-        do Screen.setColor(false);
-        do Screen.drawRectangle(x, y, x + 16, y + 16);
-
+        // White Background
+        // do Screen.setColor(false);
+        // do Screen.drawRectangle(x, y, x + size + 1, y + size + 1);
+        // Black Cell
         do Screen.setColor(state);
-        do Screen.drawRectangle(x, y, x + 15, y + 15);
+        do Screen.drawRectangle(x, y, x + size, y + size);
 
         return;
     }
@@ -36,19 +39,19 @@ class SnakeCell {
     method void moveNextPosition(int direction){
         // Up
         if (direction = 1) {
-            let y = y + 1;
+            let y = y - size - spacing;
         }
         // Down
         if (direction = 2) {
-            let y = y - 1;
+            let y = y + size + spacing;
         }
         // Left
         if (direction = 3) {
-            let x = x - 1;
+            let x = x - size - spacing;
         }
         // Right
         if (direction = 4) {
-            let x = x + 1;
+            let x = x + size + spacing;
         }
         return;
     }
@@ -66,7 +69,8 @@ class SnakeCell {
     /** Get & Set */
     method int getX() { return x; }
     method int getY() { return y; }
-    method int getNext() { return next; }
+    method SnakeCell getNext() { return next; }
+    method boolean getState() { return state; }
     method void setX(int v) { 
         let x=v;
         return;

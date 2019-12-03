@@ -4,7 +4,9 @@ call Memory.alloc 1
 pop pointer 0
 push constant 30
 push constant 30
-call Snake.new 2
+push constant 15
+push constant 2
+call Snake.new 4
 pop this 0
 push pointer 0
 return
@@ -44,7 +46,7 @@ not
 pop local 1
 label IF_FALSE0
 push local 0
-push constant 133
+push constant 131
 eq
 if-goto IF_TRUE1
 goto IF_FALSE1
@@ -53,7 +55,7 @@ push constant 1
 pop this 2
 label IF_FALSE1
 push local 0
-push constant 131
+push constant 133
 eq
 if-goto IF_TRUE2
 goto IF_FALSE2
@@ -82,6 +84,9 @@ label IF_FALSE4
 push this 0
 push this 2
 call Snake.move 2
+pop temp 0
+push constant 200
+call Sys.wait 1
 pop temp 0
 goto WHILE_EXP0
 label WHILE_END0
