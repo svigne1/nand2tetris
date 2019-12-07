@@ -44,8 +44,8 @@ class SnakeGame {
       // The new position shud be a multiple of 16
       // This is to insure snake and food co-incide properly
       // Instead of clashing near the edges.
-      let x = LCGRandom.randRange(0, 32) * 16;
-      let y = LCGRandom.randRange(0, 16) * 16;
+      let x = LCGRandom.randRange(0, 31) * 16;
+      let y = LCGRandom.randRange(0, 15) * 16;
       return SnakeCell.new(x, y, null, true);
    }
 
@@ -64,8 +64,7 @@ class SnakeGame {
       if(snake.hitWall()){
          return true;
       }
-      
-
+   
       return false;
    }
 
@@ -81,7 +80,7 @@ class SnakeGame {
       
       // Time it takes for user's first input is the seed.
       // Since this time is random each time.
-      
+      do LCGRandom.setSeed(7);
 
       while (~exit) {
          let key = Keyboard.keyPressed();   
@@ -91,35 +90,30 @@ class SnakeGame {
          if (key = 133) { let direction = -1; }   // down arrow
          if (key = 132) { let direction = 2; }   // right arrow
          if (key = 130) { let direction = -2; }   // left arrow
-
-         if (~(key = 0)){
-            do LCGRandom.setSeed(key);
-         }
          
          do snake.move(direction);
-         do food.toggle();
-         do Sys.wait(200);
-
          if(quitBoard()){
             // blink 5 times and quit.
-            // let count = 0;
-            // while(true){
-            //    do snake.toggle();
-            //    do Sys.wait(100);
-            //    let count = count + 1;
-            //    if(count = 7){
-            //       return;
-            //    }
-            // }
-            do Output.printString("GameOver");
+            let count = 0;
+            while(true){
+               do snake.toggle();
+               do Sys.wait(100);
+               let count = count + 1;
+               if(count = 10){
+                  return;
+               }
+            }
             return;
          }
+         do food.toggle();
+         do Sys.wait(200);
      }
-
-
      return;
    }
 }
+
+
+
 
 
 

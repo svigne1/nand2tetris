@@ -22,9 +22,9 @@ class Snake {
       let tail = SnakeCell.new(x, y, body, false);
       let currentDirection = 2;
 
-      do head.moveNextPosition(4);
-      do head.moveNextPosition(4);
-      do body.moveNextPosition(4);
+      do head.moveNextPosition(2);
+      do head.moveNextPosition(2);
+      do body.moveNextPosition(2);
 
       // Since all cells are off by default, this will draw the snake.
       do toggle();
@@ -73,6 +73,7 @@ class Snake {
       // Head extended.
       do head.setNext(new_head);
       let head = new_head;
+      
       do head.toggle();
       
       return;
@@ -84,12 +85,10 @@ class Snake {
    }
 
    method void eatFood(SnakeCell food){
-
-      do food.moveNextPosition(currentDirection);
-      
-      // Head extended.
+      // Eat food
       do head.setNext(food);
       let head = food;
+      do head.moveNextPosition(currentDirection);
       do head.setVisible(true);
       do head.draw();
       
@@ -116,7 +115,7 @@ class Snake {
       let x = head.getX();
       let y = head.getY();
 
-      if (((x / 16) < 32) & ((y / 16) < 16)){
+      if ((x > 0) & (y>0) & (x < 497) & (y < 241)){
          return false;
       }
       
