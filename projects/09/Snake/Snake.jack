@@ -3,19 +3,24 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/09/snake/snake.jack
 
-/** Implements a graphical snake. */
+/** 
+   Snake is simply a linked list of SnakeCells.
+   Now for graphics optimization, 
+*/
 class Snake {
 
    field SnakeCell head, tail; 
+   field int currentDirection;
 
    /** Creates the default snake of length 3 with cell size & location variable. */
-   constructor Snake new(int x, int y, int size, int spacing) {
+   constructor Snake new(int x, int y) {
 
       var SnakeCell body;
 
-      let head = SnakeCell.new(x, y, null, size, spacing);
-      let body = SnakeCell.new(x, y, head, size, spacing);
-      let tail = SnakeCell.new(x, y, body, size, spacing);
+      let head = SnakeCell.new(x, y, null, false);
+      let body = SnakeCell.new(x, y, head, false);
+      let tail = SnakeCell.new(x, y, body, false);
+      let currentDirection = 2;
 
       do head.moveNextPosition(4);
       do head.moveNextPosition(4);
@@ -34,12 +39,25 @@ class Snake {
       return;
    }
 
+   // Ignore snake reversal directions.
+   method void updateDirection(int direction){
+      var int isReverse;
+      let isReverse = direction + currentDirection;
+      if(~(isReverse = 0)){
+         let currentDirection = direction;
+      } 
+      return;
+   }
    // We animate the snake movement by removing the tail
    // & adding it to the head of the snake in the correct direction.
    // This way, every frame, we only re-draw 2 pixels and not the whole snake.
    method void move(int direction){
 
       var SnakeCell new_head;
+      
+      // Snake can't go in reverse direction, only forward, left or right.
+      do updateDirection(direction);
+
       let new_head = tail;
 
       // Tail shrinks
@@ -50,25 +68,74 @@ class Snake {
       // Tail moved in front of head
       do new_head.setX(head.getX());
       do new_head.setY(head.getY());
-      do new_head.moveNextPosition(direction);
+      do new_head.moveNextPosition(currentDirection);
       
       // Head extended.
       do head.setNext(new_head);
       let head = new_head;
       do head.toggle();
-
+      
       return;
+      
    }  
+
+   method boolean touchedFood(SnakeCell food){
+      return head.sameAs(food);
+   }
+
+   method void eatFood(SnakeCell food){
+
+      do food.moveNextPosition(currentDirection);
+      
+      // Head extended.
+      do head.setNext(food);
+      let head = food;
+      do head.setVisible(true);
+      do head.draw();
+      
+      return;
+      
+   }  
+
+   method boolean eatSelf(){
+      
+      var SnakeCell current; 
+      let current = tail;  
+      while (~(current = head)) {
+         if(current.sameAs(head)){
+            return true;
+         }
+         let current = current.getNext();
+      }
+
+      return false;
+   }
+   
+   method boolean hitWall(){
+      var int x, y;
+      let x = head.getX();
+      let y = head.getY();
+
+      if (((x / 16) < 32) & ((y / 16) < 16)){
+         return false;
+      }
+      
+      return true;
+   }
 
    /** Draws the snake on the screen. */
    method void toggle() { 
       var SnakeCell current;    
       let current = tail;  
       while (~(current = null)) {
-         
+
          do current.toggle();
          let current = current.getNext();
       }
       return;
+   }
+
+   method SnakeCell getHead(){
+      return head;
    }
 }

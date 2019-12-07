@@ -18,12 +18,16 @@ class SnakeGame {
    
    field Snake snake; 
    field SnakeCell food; 
-   field int direction; 
+   field int direction;
+
+   field int size, spacing; 
 
    /** Constructs a new SnakeGame. */
    constructor SnakeGame new() {
       // Creates a length 3 snake with cell size 15 & snake position (30, 30)
-      let snake = Snake.new(30, 30, 15, 2);
+      let snake = Snake.new(32, 32);
+      do LCGRandom.setSeed(46);
+      let food = newFood();
       return this;
    }
 
@@ -33,30 +37,86 @@ class SnakeGame {
       do Memory.deAlloc(this);
       return;
    }
+   
+   method SnakeCell newFood(){
+      var int x;
+      var int y;
+      // The new position shud be a multiple of 16
+      // This is to insure snake and food co-incide properly
+      // Instead of clashing near the edges.
+      let x = LCGRandom.randRange(0, 32) * 16;
+      let y = LCGRandom.randRange(0, 16) * 16;
+      return SnakeCell.new(x, y, null, true);
+   }
+
+   method boolean quitBoard(){
+
+      if(snake.touchedFood(food)){
+         do snake.eatFood(food);
+         let food = newFood();
+         return false;
+      }
+
+      if(snake.eatSelf()){
+         return true;
+      }
+
+      if(snake.hitWall()){
+         return true;
+      }
+      
+
+      return false;
+   }
 
    /** Runs the game: handles the user's inputs and moves the snake accordingly */
    method void run() {
       
       var char key; // keyboard value
-      
       var boolean exit;
+      var int count;
+
       let exit = false;
-
-      let direction = 4; 
+      let direction = -2; // default is right.
       
-      while (~exit) {
+      // Time it takes for user's first input is the seed.
+      // Since this time is random each time.
+      
 
+      while (~exit) {
          let key = Keyboard.keyPressed();   
          
          if (key = 81)  { let exit = true; }     // q key
          if (key = 131) { let direction = 1; }   // up arrow
-         if (key = 133) { let direction = 2; }   // down arrow
-         if (key = 130) { let direction = 3; }   // left arrow
-         if (key = 132) { let direction = 4; }   // right arrow
+         if (key = 133) { let direction = -1; }   // down arrow
+         if (key = 132) { let direction = 2; }   // right arrow
+         if (key = 130) { let direction = -2; }   // left arrow
+
+         if (~(key = 0)){
+            do LCGRandom.setSeed(key);
+         }
          
          do snake.move(direction);
+         do food.toggle();
          do Sys.wait(200);
-     } 
+
+         if(quitBoard()){
+            // blink 5 times and quit.
+            // let count = 0;
+            // while(true){
+            //    do snake.toggle();
+            //    do Sys.wait(100);
+            //    let count = count + 1;
+            //    if(count = 7){
+            //       return;
+            //    }
+            // }
+            do Output.printString("GameOver");
+            return;
+         }
+     }
+
+
      return;
    }
 }

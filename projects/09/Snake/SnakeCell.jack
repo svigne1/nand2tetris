@@ -2,18 +2,19 @@
 /** It is used both as a body part of the snake as well as it's food */
 class SnakeCell {
     field int x, y;
-    field boolean state; 
+    field boolean visible, food; 
     field SnakeCell next;
     field int size, spacing;             
 
     /* Creates a SnakeCell. */
-    constructor SnakeCell new(int _x, int _y, SnakeCell _next, int _size, int _spacing) {
+    constructor SnakeCell new(int _x, int _y, SnakeCell _next, boolean _food) {
         let x = _x;
         let y = _y;
         let next = _next;
-        let size = _size;
-        let spacing = _spacing;
-        let state = false;
+        let size = 14;
+        let spacing = 2;
+        let food = _food;
+        let visible = false;
         return this;
     }
 
@@ -23,17 +24,24 @@ class SnakeCell {
         // do Screen.setColor(false);
         // do Screen.drawRectangle(x, y, x + size + 1, y + size + 1);
         // Black Cell
-        do Screen.setColor(state);
+        do Screen.setColor(visible);
         do Screen.drawRectangle(x, y, x + size, y + size);
 
         return;
     }
     
-    /** Reverses the state from hidden to visible & vice-versa */
+    /** Reverses the visible from hidden to visible & vice-versa */
     method void toggle() {
-        let state = ~state;
+        let visible = ~visible;
         do draw();
         return;
+    }
+
+    method boolean sameAs(SnakeCell b) { 
+        if (x = b.getX() & y = b.getY()){
+            return true;
+        } 
+        return false;
     }
 
     method void moveNextPosition(int direction){
@@ -42,16 +50,16 @@ class SnakeCell {
             let y = y - size - spacing;
         }
         // Down
-        if (direction = 2) {
+        if (direction = -1) {
             let y = y + size + spacing;
         }
-        // Left
-        if (direction = 3) {
-            let x = x - size - spacing;
-        }
         // Right
-        if (direction = 4) {
+        if (direction = 2) {
             let x = x + size + spacing;
+        }
+        // Left
+        if (direction = -2) {
+            let x = x - size - spacing;
         }
         return;
     }
@@ -65,12 +73,12 @@ class SnakeCell {
         do Memory.deAlloc(this);
         return;
     }
-
+    
     /** Get & Set */
     method int getX() { return x; }
     method int getY() { return y; }
     method SnakeCell getNext() { return next; }
-    method boolean getState() { return state; }
+    method boolean getvisible() { return visible; }
     method void setX(int v) { 
         let x=v;
         return;
@@ -81,6 +89,10 @@ class SnakeCell {
     }
     method void setNext(SnakeCell v) { 
         let next = v;
+        return;  
+    }
+    method void setVisible(boolean v) { 
+        let visible = v;
         return;  
     }
 
