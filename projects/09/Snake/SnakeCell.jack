@@ -2,18 +2,17 @@
 /** It is used both as a body part of the snake as well as it's food */
 class SnakeCell {
     field int x, y;
-    field boolean visible, food; 
+    field boolean visible; 
     field SnakeCell next;
     field int size, spacing;             
 
     /* Creates a SnakeCell. */
-    constructor SnakeCell new(int _x, int _y, SnakeCell _next, boolean _food) {
+    constructor SnakeCell new(int _x, int _y, SnakeCell _next) {
         let x = _x;
         let y = _y;
         let next = _next;
         let size = 14;
         let spacing = 2;
-        let food = _food;
         let visible = false;
         return this;
     }
@@ -38,13 +37,14 @@ class SnakeCell {
     }
 
     method boolean sameAs(SnakeCell b) { 
-        if (x = b.getX() & y = b.getY()){
+        if ((x = b.getX()) & (y = b.getY())){
             return true;
         } 
         return false;
     }
 
     method void moveNextPosition(int direction){
+
         // Up
         if (direction = 1) {
             let y = y - size - spacing;
@@ -61,6 +61,23 @@ class SnakeCell {
         if (direction = -2) {
             let x = x - size - spacing;
         }
+
+        if (x = -16){ 
+            let x = 496;
+        }
+
+        if (x = 512){ 
+            let x = 0;
+        }
+        
+        if (y = -16){ 
+            let y = 240;
+        }
+        
+        if (y = 256){ 
+            let y = 0;
+        }
+
         return;
     }
     

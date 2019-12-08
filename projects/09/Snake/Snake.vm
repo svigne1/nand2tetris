@@ -5,20 +5,17 @@ pop pointer 0
 push argument 0
 push argument 1
 push constant 0
-push constant 0
-call SnakeCell.new 4
+call SnakeCell.new 3
 pop this 0
 push argument 0
 push argument 1
 push this 0
-push constant 0
-call SnakeCell.new 4
+call SnakeCell.new 3
 pop local 0
 push argument 0
 push argument 1
 push local 0
-push constant 0
-call SnakeCell.new 4
+call SnakeCell.new 3
 pop this 1
 push constant 2
 pop this 2
@@ -98,16 +95,16 @@ push this 0
 call SnakeCell.getY 1
 call SnakeCell.setY 2
 pop temp 0
-push local 0
-push this 2
-call SnakeCell.moveNextPosition 2
-pop temp 0
 push this 0
 push local 0
 call SnakeCell.setNext 2
 pop temp 0
 push local 0
 pop this 0
+push this 0
+push this 2
+call SnakeCell.moveNextPosition 2
+pop temp 0
 push this 0
 call SnakeCell.toggle 1
 pop temp 0
@@ -171,39 +168,6 @@ pop local 0
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
-return
-function Snake.hitWall 2
-push argument 0
-pop pointer 0
-push this 0
-call SnakeCell.getX 1
-pop local 0
-push this 0
-call SnakeCell.getY 1
-pop local 1
-push local 0
-push constant 0
-gt
-push local 1
-push constant 0
-gt
-and
-push local 0
-push constant 497
-lt
-and
-push local 1
-push constant 241
-lt
-and
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push constant 0
-return
-label IF_FALSE0
-push constant 0
-not
 return
 function Snake.toggle 1
 push argument 0

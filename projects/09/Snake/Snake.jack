@@ -17,9 +17,9 @@ class Snake {
 
       var SnakeCell body;
 
-      let head = SnakeCell.new(x, y, null, false);
-      let body = SnakeCell.new(x, y, head, false);
-      let tail = SnakeCell.new(x, y, body, false);
+      let head = SnakeCell.new(x, y, null);
+      let body = SnakeCell.new(x, y, head);
+      let tail = SnakeCell.new(x, y, body);
       let currentDirection = 2;
 
       do head.moveNextPosition(2);
@@ -68,11 +68,9 @@ class Snake {
       // Tail moved in front of head
       do new_head.setX(head.getX());
       do new_head.setY(head.getY());
-      do new_head.moveNextPosition(currentDirection);
-      
-      // Head extended.
       do head.setNext(new_head);
       let head = new_head;
+      do head.moveNextPosition(currentDirection);
       
       do head.toggle();
       
@@ -108,18 +106,6 @@ class Snake {
       }
 
       return false;
-   }
-   
-   method boolean hitWall(){
-      var int x, y;
-      let x = head.getX();
-      let y = head.getY();
-
-      if ((x > 0) & (y>0) & (x < 497) & (y < 241)){
-         return false;
-      }
-      
-      return true;
    }
 
    /** Draws the snake on the screen. */

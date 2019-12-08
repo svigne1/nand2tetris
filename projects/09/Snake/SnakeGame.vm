@@ -43,58 +43,19 @@ pop local 1
 push local 0
 push local 1
 push constant 0
-push constant 0
-not
-call SnakeCell.new 4
+call SnakeCell.new 3
 return
-function SnakeGame.quitBoard 0
-push argument 0
-pop pointer 0
-push this 0
-push this 1
-call Snake.touchedFood 2
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push this 0
-push this 1
-call Snake.eatFood 2
-pop temp 0
-push pointer 0
-call SnakeGame.newFood 1
-pop this 1
-push constant 0
-return
-label IF_FALSE0
-push this 0
-call Snake.eatSelf 1
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 0
-not
-return
-label IF_FALSE1
-push this 0
-call Snake.hitWall 1
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
-push constant 0
-not
-return
-label IF_FALSE2
-push constant 0
-return
-function SnakeGame.run 3
+function SnakeGame.run 5
 push argument 0
 pop pointer 0
 push constant 0
 pop local 1
+push constant 0
+pop local 2
 push constant 2
 neg
 pop this 2
-push constant 7
+push constant 3
 call LCGRandom.setSeed 1
 pop temp 0
 label WHILE_EXP0
@@ -152,17 +113,62 @@ push constant 2
 neg
 pop this 2
 label IF_FALSE4
+push local 0
+push constant 49
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 0
+call Snake.getHead 1
+pop local 4
+push local 4
+call SnakeCell.getX 1
+call Output.printInt 1
+pop temp 0
+label IF_FALSE5
+push local 0
+push constant 50
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 0
+call Snake.getHead 1
+pop local 4
+push local 4
+call SnakeCell.getY 1
+call Output.printInt 1
+pop temp 0
+label IF_FALSE6
 push this 0
 push this 2
 call Snake.move 2
 pop temp 0
+push this 0
+push this 1
+call Snake.touchedFood 2
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push this 0
+push this 1
+call Snake.eatFood 2
+pop temp 0
 push pointer 0
-call SnakeGame.quitBoard 1
-if-goto IF_TRUE5
-goto IF_FALSE5
-label IF_TRUE5
+call SnakeGame.newFood 1
+pop this 1
+label IF_FALSE7
+push this 0
+call Snake.eatSelf 1
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push this 0
+call Snake.getHead 1
+pop local 4
 push constant 0
-pop local 2
+pop local 3
 label WHILE_EXP1
 push constant 0
 not
@@ -174,24 +180,24 @@ pop temp 0
 push constant 100
 call Sys.wait 1
 pop temp 0
-push local 2
+push local 3
 push constant 1
 add
-pop local 2
-push local 2
+pop local 3
+push local 3
 push constant 10
 eq
-if-goto IF_TRUE6
-goto IF_FALSE6
-label IF_TRUE6
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
 push constant 0
 return
-label IF_FALSE6
+label IF_FALSE9
 goto WHILE_EXP1
 label WHILE_END1
 push constant 0
 return
-label IF_FALSE5
+label IF_FALSE8
 push this 1
 call SnakeCell.toggle 1
 pop temp 0

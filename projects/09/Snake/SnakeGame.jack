@@ -46,41 +46,24 @@ class SnakeGame {
       // Instead of clashing near the edges.
       let x = LCGRandom.randRange(0, 31) * 16;
       let y = LCGRandom.randRange(0, 15) * 16;
-      return SnakeCell.new(x, y, null, true);
-   }
-
-   method boolean quitBoard(){
-
-      if(snake.touchedFood(food)){
-         do snake.eatFood(food);
-         let food = newFood();
-         return false;
-      }
-
-      if(snake.eatSelf()){
-         return true;
-      }
-
-      if(snake.hitWall()){
-         return true;
-      }
-   
-      return false;
+      return SnakeCell.new(x, y, null);
    }
 
    /** Runs the game: handles the user's inputs and moves the snake accordingly */
    method void run() {
       
       var char key; // keyboard value
-      var boolean exit;
+      var boolean exit, outOfBounds;
       var int count;
+      var SnakeCell temp;
 
       let exit = false;
+      let outOfBounds = false;
       let direction = -2; // default is right.
       
       // Time it takes for user's first input is the seed.
       // Since this time is random each time.
-      do LCGRandom.setSeed(7);
+      do LCGRandom.setSeed(3);
 
       while (~exit) {
          let key = Keyboard.keyPressed();   
@@ -90,10 +73,24 @@ class SnakeGame {
          if (key = 133) { let direction = -1; }   // down arrow
          if (key = 132) { let direction = 2; }   // right arrow
          if (key = 130) { let direction = -2; }   // left arrow
+         if (key = 49) { // 1
+            let temp = snake.getHead();
+            do Output.printInt(temp.getX()); 
+         } 
+         if (key = 50) { // 2
+            let temp = snake.getHead();
+            do Output.printInt(temp.getY()); 
+         } 
          
          do snake.move(direction);
-         if(quitBoard()){
-            // blink 5 times and quit.
+         
+         if(snake.touchedFood(food)){
+            do snake.eatFood(food);
+            let food = newFood();
+         }
+
+         if(snake.eatSelf()){
+            let temp = snake.getHead();
             let count = 0;
             while(true){
                do snake.toggle();
@@ -102,9 +99,10 @@ class SnakeGame {
                if(count = 10){
                   return;
                }
-            }
+            }           
             return;
          }
+         
          do food.toggle();
          do Sys.wait(200);
      }
@@ -113,6 +111,8 @@ class SnakeGame {
 }
 
 
+
+// blink 5 times and quit.
 
 
 
