@@ -100,11 +100,11 @@ Negative Numbers
 
         But everywhere else, it #### JUST WORKS ####
 
-    How we do the 2's complement?
+    How we do the 2's complement? (I took Madhu's help)
         x is taken as 16 - x 
         16 - x = (15 - x) + 1 = !x + 1
 
-    How is (15 - x) equals to !x?
+    How is (15 - x) equals to !x? 
         When u subtract any number, x from 1111, the result is the 4-bit NOT of that number
           1111
         - 0101
@@ -133,7 +133,7 @@ ALU
     zr -> if out is 0, then 1
     ng -> if out is negative, then 1
 
-    Selector bit Functionality derived !!!
+    Selector bit Functionality derived !!! (I took Madhu's help)
     
     zx  nx  zy  ny  f   no  out     Explained     
     1   0   1   0   1   0   0     x=0000, y=0000, f=0000 (+), no=0000, out=0 
